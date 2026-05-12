@@ -1,0 +1,6 @@
+fastmcp
+ollama
+rich
+pydantic
+fastapi
+uvicorn
