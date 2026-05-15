@@ -1,0 +1,36 @@
+classDiagram
+    class OllamaClient {
+        +str BASE_URL
+        +str MODEL
+        +str SYSTEM_PROMPT
+        +ask_ollama(user_message: str, tools_description: str) dict
+        +format_result(tool_name: str, result: str) str
+        -_parse_tool_call(answer: str) dict
+    }
+    
+    class Logger {
+        +getLogger(name: str) Logger
+        +error(msg: str)
+    }
+    
+    class HTTPXClient {
+        +post(url: str, json: dict, timeout: float) Response
+        +raise_for_status()
+    }
+    
+    class Response {
+        +json() dict
+        +raise_for_status()
+    }
+    
+    class Environment {
+        +getenv(key: str, default: str) str
+    }
+    
+    OllamaClient --> Logger : verwendet
+    OllamaClient --> HTTPXClient : verwendet für API-Calls
+    OllamaClient --> Environment : liest Konfiguration
+    HTTPXClient --> Response : erzeugt
+    
+    note for OllamaClient "Singleton-ähnliche Nutzung\nAsynchrone Methoden"
+    note for OllamaClient._parse_tool_call "Privat-Methode\nExtrahiert JSON aus LLM-Antwort"

@@ -1,0 +1,41 @@
+classDiagram
+    class MainProgram {
+        +main() None
+        +process_request(connector: MCPConnector, user_input: str) str
+        -logger Logger
+    }
+    
+    class MCPConnector {
+        +connect() AsyncContextManager
+        +get_tools_description() str
+        +call_tool(tool_name: str, arguments: dict) ToolResult
+    }
+    
+    class OllamaClient {
+        +ask_ollama(user_message: str, tools_description: str) dict
+        +format_result(tool_name: str, result: str) str
+    }
+    
+    class ToolResult {
+        +bool success
+        +str output
+        +str error
+    }
+    
+    class Logger {
+        +basicConfig()
+        +getLogger(name: str) Logger
+        +info(msg: str)
+        +error(msg: str)
+    }
+    
+    MainProgram --> MCPConnector : erstellt und nutzt
+    MainProgram --> OllamaClient : importiert Funktionen
+    MainProgram --> Logger : verwendet für Logging
+    MainProgram --> ToolResult : verarbeitet Ergebnis
+    
+    OllamaClient --> ToolResult : erzeugt (implizit)
+    
+    note for MainProgram "Hauptschleife des Textadventures\nVerarbeitet Benutzereingaben"
+    note for MainProgram.process_request "Core Logic:\n1. Ollama fragen\n2. Tool ausführen\n3. Ergebnis formatieren"
+    note for MCPConnector "Vermittelt zwischen Spiel und Tools\nStellt Tool-Description bereit"

@@ -1,0 +1,46 @@
+classDiagram
+    class FastMCP {
+        +str name
+        +tool(name: str, title: str, description: str) decorator
+        +run(transport: str) None
+    }
+    
+    class MCPServer {
+        +FastMCP mcp
+        +look() str
+        +move(direction: str) str
+        +take(item: str) str
+        +inventory() str
+        -logger Logger
+    }
+    
+    class WorldData {
+        +Dict[str, Room] WORLD
+        +str current_room
+        +List[str] inventory
+    }
+    
+    class Room {
+        +str name
+        +str description
+        +Dict[str, str] exits
+        +List[str] items
+    }
+    
+    class ToolDecorator {
+        <<decorator>>
+        +name: str
+        +title: str
+        +description: str
+    }
+    
+    MCPServer --> FastMCP : verwendet (Komposition)
+    MCPServer --> WorldData : importiert und modifiziert
+    MCPServer --> Room : nutzt für Raumlogik
+    FastMCP --> ToolDecorator : erstellt Decorators
+    
+    WorldData --> Room : enthält mehrere Räume
+    
+    note for MCPServer "Singleton-Server\nWird als stdio-Prozess gestartet"
+    note for FastMCP "Aus mcp.server.fastmcp\nStellt Tool-Decorator bereit"
+    note for WorldData "Globale Daten aus world.py\nWird direkt modifiziert"

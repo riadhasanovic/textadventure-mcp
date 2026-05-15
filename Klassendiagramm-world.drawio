@@ -1,0 +1,34 @@
+classDiagram
+    class Room {
+        +str name
+        +str description
+        +Dict[str, str] exits
+        +List[str] items
+        +__init__(name: str, description: str, exits: Dict[str, str], items: List[str])
+    }
+    
+    class World {
+        +Dict[str, Room] WORLD
+    }
+    
+    class GameState {
+        +str current_room
+        +List[str] inventory
+        +int collected_fragments
+    }
+    
+    class BaseModel {
+        <<Pydantic>>
+        +dict() dict
+        +json() str
+        +validate() Room
+    }
+    
+    Room --|> BaseModel : erbt von
+    
+    World --> Room : enthält (Dictionary)
+    GameState --> Room : referenziert (current_room)
+    
+    note for Room "Pydantic BaseModel\nAutomatische Validierung"
+    note for World "Konstante Spielwelt\nStatische Raum-Definitionen"
+    note for GameState "Globale Variablen\nVeränderlicher Spielzustand"

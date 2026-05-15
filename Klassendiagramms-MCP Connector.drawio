@@ -1,0 +1,67 @@
+classDiagram
+    class MCPConnector {
+        -session ClientSession
+        -str tools_description
+        -_tools_list List
+        +__init__() None
+        +connect() AsyncContextManager~MCPConnector~
+        +call_tool(tool_name: str, arguments: dict) ToolResult
+        +get_tools_description() str
+    }
+    
+    class ToolResult {
+        +bool success
+        +str output
+        +str error
+        +__init__(success: bool, output: str, error: str)
+    }
+    
+    class StdioServerParameters {
+        +str command
+        +List[str] args
+        +__init__(command: str, args: List[str])
+    }
+    
+    class stdio_client {
+        +__call__(params: StdioServerParameters) tuple
+    }
+    
+    class ClientSession {
+        +__init__(read: Stream, write: Stream)
+        +initialize() None
+        +list_tools() ListToolsResult
+        +call_tool(name: str, arguments: dict) CallToolResult
+    }
+    
+    class ListToolsResult {
+        +List[Tool] tools
+    }
+    
+    class Tool {
+        +str name
+        +str description
+        +Any inputSchema
+    }
+    
+    class CallToolResult {
+        +bool isError
+        +List[Content] content
+    }
+    
+    class Content {
+        +str text
+    }
+    
+    MCPConnector --> ToolResult : erzeugt und zurückgibt
+    MCPConnector --> ClientSession : verwendet (Komposition)
+    MCPConnector --> stdio_client : nutzt (Kontextmanager)
+    stdio_client --> StdioServerParameters : benötigt Parameter
+    
+    ClientSession --> ListToolsResult : list_tools() gibt zurück
+    ClientSession --> CallToolResult : call_tool() gibt zurück
+    ListToolsResult --> Tool : enthält mehrere Tools
+    CallToolResult --> Content : enthält Liste von Content-Objekten
+    
+    note for MCPConnector "Singleton-ähnlich pro Verbindung\nVerwaltet eine aktive Session"
+    note for ToolResult "Einfaches Ergebnis-DTO\n(Data Transfer Object)"
+    note for ClientSession "Aus der MCP-Bibliothek\nRepräsentiert eine aktive Client-Sitzung"
