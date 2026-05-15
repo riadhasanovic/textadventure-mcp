@@ -1,6 +1,5 @@
 fastmcp
 ollama
+httpx
 rich
 pydantic
-fastapi
-uvicorn
