@@ -1,55 +1,66 @@
-from fastmcp import FastMCP
-from world import WORLD, current_room, inventory, collected_notes
-from typing import Literal
+"""
+MCP Server - Tools für Jacob Miller Textadventure
+"""
+from mcp.server.fastmcp import FastMCP
+import logging
+import sys
+from world import WORLD, current_room, inventory
 
-mcp = FastMCP("SlenderMan")
+logging.basicConfig(level=logging.INFO, stream=sys.stderr)
+logger = logging.getLogger(__name__)
 
-@mcp.tool
+mcp = FastMCP("Jacob Miller")
+
+@mcp.tool(
+    name="look",
+    title="Beschreibe den aktuellen Ort",
+    description="Gibt eine detaillierte Beschreibung des aktuellen Ortes."
+)
 def look() -> str:
-    """Beschreibt den aktuellen Ort sehr atmosphärisch."""
     room = WORLD[current_room]
     desc = f"**{room.name}**\n{room.description}\n\n"
-    
     if room.items:
-        desc += f"Du siehst hier: {', '.join(room.items)}\n"
-    
+        desc += f"Gegenstände hier: {', '.join(room.items)}\n"
     desc += f"Ausgänge: {', '.join(room.exits.keys())}"
-    
-    if collected_notes > 0:
-        desc += f"\n\nDu hast bereits {collected_notes}/8 Zettel gesammelt..."
-    
     return desc
 
-@mcp.tool
-def move(direction: Literal["norden", "sueden", "osten", "westen"]) -> str:
-    """Bewege dich in eine Richtung."""
+@mcp.tool(
+    name="move",
+    title="Bewege dich in eine Richtung",
+    description="Mögliche Richtungen: norden, süden, osten, westen"
+)
+def move(direction: str) -> str:
     global current_room
     room = WORLD[current_room]
     if direction in room.exits:
         current_room = room.exits[direction]
         return look()
-    else:
-        return "Du kannst nicht in diese Richtung gehen. Der Wald ist zu dicht."
+    return "Dorthin führt kein Weg."
 
-@mcp.tool
+@mcp.tool(
+    name="take",
+    title="Nimm einen Gegenstand auf",
+    description="Nimmt einen Gegenstand auf, falls vorhanden."
+)
 def take(item: str) -> str:
-    """Nimm einen Gegenstand (Zettel) auf."""
-    global collected_notes
+    global inventory
     room = WORLD[current_room]
     if item in room.items:
         room.items.remove(item)
         inventory.append(item)
-        collected_notes += 1
-        return f"Du hast **{item}** aufgenommen. Deine Hände zittern..."
-    return "Das gibt es hier nicht."
+        return f"Du hast '{item}' aufgenommen."
+    return f"'{item}' gibt es hier nicht."
 
-@mcp.tool
+@mcp.tool(
+    name="inventory",
+    title="Zeige dein Inventar",
+    description="Zeigt alle gesammelten Gegenstände."
+)
 def inventory() -> str:
-    """Zeigt dein Inventar."""
     if inventory:
-        return f"Gesammelte Zettel: {', '.join(inventory)}\nInsgesamt: {collected_notes}/8"
-    return "Du hast noch keine Zettel."
+        return f"In deinem Inventar: {', '.join(inventory)}"
+    return "Dein Inventar ist leer."
 
 if __name__ == "__main__":
-    print("🌲 Slender Man - The Forest | MCP Server gestartet...")
-    mcp.run(transport="http", host="0.0.0.0", port=8000)
+    logger.info("🚀 MCP Server gestartet")
+    mcp.run(transport="stdio")
