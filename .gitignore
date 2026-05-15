@@ -1,5 +1,27 @@
+cat > .gitignore << 'EOF'
+# Virtuelle Umgebungen
 venv/
 .venv/
+
+# Python Cache
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+
+# MacOS
 .DS_Store
+
+# Environment variables
+.env
+.env.local
+
+# Ollama Cache (optional)
+.ollama/
+
+# Logs
+*.log
+
+# VS Code
+.vscode/
+EOF
