@@ -1,5 +1,5 @@
 """
-Ollama Client - Für Jacob Miller Textadventure
+Ollama Client - Strenge Version für Jacob Miller
 """
 import os
 import json
@@ -13,20 +13,9 @@ MODEL = os.getenv("OLLAMA_MODEL", "gemma3:4b")
 
 
 SYSTEM_PROMPT = """
-Du bist der Erzähler eines psychologischen Horror-Textadventures.
-Der Spieler ist Jacob Miller. Er durchlebt seine eigenen Schuldgefühle.
-
-Du darfst **nur** JSON ausgeben. Kein normaler Text.
-
-Antworte immer mit einem gültigen JSON-Objekt:
-{
-  "tool": "name_des_tools",
-  "arguments": { ... }
-}
-
-Verfügbare Tools: look, move, take, inventory
-
-Bleib immer düster, atmosphärisch und psychologisch. Keine Witze, keine Emojis.
+Du bist ein nüchterner, direkter Erzähler eines Textadventures.
+Schreibe **kurz, sachlich und in der Gegenwartsform**.
+Maximal 2–3 kurze Sätze. Keine Poesie, keine Metaphern, keine langen Beschreibungen.
 """
 
 
@@ -43,12 +32,7 @@ async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
         try:
             response = await client.post(
                 url,
-                json={
-                    "model": MODEL,
-                    "messages": messages,
-                    "temperature": 0.0,
-                    "stream": False
-                },
+                json={"model": MODEL, "messages": messages, "temperature": 0.0, "stream": False},
                 timeout=60.0
             )
             response.raise_for_status()
@@ -61,17 +45,20 @@ async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
 
 
 async def format_result(tool_name: str, result: str) -> str:
-    """Macht aus dem Tool-Ergebnis eine atmosphärische Erzählung."""
-    url = f"{BASE_URL}/api/chat"
+    """Sehr strikte Formatierung – besonders für inventory und look"""
+    if tool_name == "inventory":
+        return result  # Direkte Ausgabe ohne LLM
 
+    # Für look und andere Tools extrem kurz halten
+    url = f"{BASE_URL}/api/chat"
     messages = [
-        {"role": "system", "content": "Du bist ein düsterer, psychologischer Erzähler. Schreibe kurz, bedrückend und atmosphärisch auf Deutsch."},
-        {"role": "user", "content": f"Das Tool '{tool_name}' hat folgendes Ergebnis geliefert:\n{result}"}
+        {"role": "system", "content": "Antworte extrem kurz und sachlich. Maximal 2 Sätze. Keine Poesie. Gegenwartsform."},
+        {"role": "user", "content": result}
     ]
 
     async with httpx.AsyncClient() as client:
         try:
-            response = await client.post(url, json={"model": MODEL, "messages": messages, "temperature": 0.7, "stream": False}, timeout=30.0)
+            response = await client.post(url, json={"model": MODEL, "messages": messages, "temperature": 0.2, "stream": False}, timeout=20.0)
             response.raise_for_status()
             data = response.json()
             return data["message"]["content"]

@@ -4,83 +4,114 @@ from typing import Dict, List
 class Room(BaseModel):
     name: str
     description: str
-    exits: Dict[str, str]
+    exits: Dict[str, str] = {}
     items: List[str] = []
 
-# ==================== JACOB MILLER - LOVERS LEAP ====================
 WORLD = {
-    "jacobs_house": Room(
+    "alter_baum": Room(
+        name="Der alte Baum",
+        description="Du wachst unter einem riesigen, knorrigen alten Baum auf. Der Nebel ist dicht.",
+        exits={
+            "norden": "parkplatz_baseballstadion",
+            "süden": "jacobs_haus",
+            "osten": "friedhof",
+            "westen": "stadtbuecherei"
+        },
+        items=["opas_altes_schnitzmesser"]
+    ),
+
+    "jacobs_haus": Room(
         name="Jacobs Haus",
-        description="Deine Auffahrt. Du wachst hier auf. Es ist neblig, kalt und unheimlich still.",
-        exits={"norden": "library", "osten": "high_school"},
+        description="Dein eigenes Haus. Die Tür steht offen.",
+        exits={
+            "osten": "lovers_leap",
+            "westen": "stadtbuecherei",
+            "norden": "alter_baum"
+        },
+        items=["dnd_brettspiel"]
+    ),
+
+    "highschool": Room(
+        name="Highschool",
+        description="Deine alte Highschool.",
+        exits={
+            "süden": "stadtbuecherei",
+            "norden": "mr_smiths_haus"
+        },
         items=[]
     ),
 
-    "library": Room(
+    "stadtbuecherei": Room(
         name="Stadtbibliothek",
-        description="Die alte Bibliothek. Hier steht noch der alte D&D-Tisch deiner früheren Freunde David, Zack und Billy.",
-        exits={"sueden": "jacobs_house", "osten": "high_school"},
+        description="Die alte Stadtbibliothek.",
+        exits={
+            "norden": "highschool",
+            "osten": "alter_baum",
+            "süden": "jacobs_haus"
+        },
         items=["foto_dnd_freunde"]
     ),
 
-    "high_school": Room(
-        name="High School",
-        description="Deine alte Highschool. Der Eingang ist offen. Der Weg zum Trainingsplatz führt nach Osten.",
-        exits={"westen": "library", "osten": "trainingsplatz"},
+    "mr_smiths_haus": Room(
+        name="Haus von Hausmeister Smith",
+        description="Das Haus von Hausmeister Smith.",
+        exits={
+            "süden": "highschool",
+            "osten": "parkplatz_baseballstadion"
+        },
+        items=["wagenheber", "reifen_reparaturset", "radkreuz"]
+    ),
+
+    "parkplatz_baseballstadion": Room(
+        name="Parkplatz am Baseballstadion",
+        description="Hier steht das Auto von Coach Ferguson.",
+        exits={
+            "westen": "mr_smiths_haus",
+            "süden": "alter_baum",
+            "osten": "opas_haus"
+        },
         items=[]
-    ),
-
-    "trainingsplatz": Room(
-        name="Football Trainingsplatz",
-        description="Der verlassene Trainingsplatz. In der Nähe steht das Auto von Coach Ferguson.",
-        exits={"westen": "high_school", "sueden": "parkplatz"},
-        items=[]
-    ),
-
-    "parkplatz": Room(
-        name="Parkplatz",
-        description="Das Auto von Coach Ferguson steht hier. Einer der Reifen ist zerstochen.",
-        exits={"norden": "trainingsplatz"},
-        items=["baseballjacke"]
-    ),
-
-    "hh_smith_house": Room(
-        name="Haus von H.H. Smith",
-        description="Die Garage von Hausmeister Smith neben dem Sportplatz.",
-        exits={"norden": "trainingsplatz"},
-        items=["wagenheber", "radkreuz", "reifenreparatursatz"]
-    ),
-
-    "opas_house": Room(
-        name="Opas Haus",
-        description="Das alte Haus deines Großvaters. Unter dem Fußabtreter liegt ein Schlüssel.",
-        exits={"osten": "garage_opa"},
-        items=["garage_schluessel"]
-    ),
-
-    "garage_opa": Room(
-        name="Garage von Opa Garry",
-        description="Hier hat dein Opa früher viel für dich gebaut. Dein altes Handy liegt in einer Schublade.",
-        exits={"westen": "opas_house"},
-        items=["altes_handy"]
     ),
 
     "friedhof": Room(
         name="Friedhof",
-        description="Der Friedhof, auf dem dein Opa begraben liegt. Von hier führt ein Weg hinauf zu Lovers Leap.",
-        exits={"westen": "opas_house", "norden": "lovers_leap"},
+        description="Der Friedhof, auf dem dein Opa begraben liegt.",
+        exits={
+            "norden": "opas_haus",
+            "osten": "lovers_leap",
+            "westen": "alter_baum"
+        },
         items=[]
+    ),
+
+    "opas_haus": Room(
+        name="Haus von Opa Gerald",
+        description="Das alte Haus deines Großvaters.",
+        exits={
+            "westen": "friedhof",
+            "osten": "opas_garage",
+        },
+        items=["garage_schluessel"]
+    ),
+
+
+    "opas_garage": Room(
+        name="Garage von Opa Gerald.",
+        description="Hier hat er gerne Sachen gebastelt für Jacob als er klein war.",
+        exits={
+            "westen": "opas_haus"
+        },
+        items=["jacobs_altes_handy"]
     ),
 
     "lovers_leap": Room(
         name="Lovers Leap",
-        description="Der höchste Punkt der Stadt. Von hier aus siehst du alles. Hier wird sich alles entscheiden...",
-        exits={"sueden": "friedhof"},
+        description="Der höchste Punkt der Stadt. Von hier aus siehst du alles.",
+        exits={"westen": "alter_baum"},
         items=[]
     )
 }
 
 # Globaler Spielzustand
-current_room: str = "jacobs_house"
+current_room: str = "alter_baum"
 inventory: List[str] = []
-collected_fragments: int = 0
