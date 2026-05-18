@@ -43,7 +43,7 @@ WORLD = {
 
     "stadtbuecherei": Room(
         name="Stadtbibliothek",
-        description="Die alte Stadtbibliothek.",
+        description="Die alte Stadtbibliothek. Hier ist der Treffpunkt gewesen für dich und deine Freunde um D&D zu spielen.",
         exits={
             "norden": "highschool",
             "osten": "alter_baum",
@@ -54,7 +54,7 @@ WORLD = {
 
     "mr_smiths_haus": Room(
         name="Haus von Hausmeister Smith",
-        description="Das Haus von Hausmeister Smith.",
+        description="Das Haus von Hausmeister Smith, hier findest du bestimmt verschiedene Werkzeuge.",
         exits={
             "süden": "highschool",
             "osten": "parkplatz_baseballstadion"
@@ -64,7 +64,7 @@ WORLD = {
 
     "parkplatz_baseballstadion": Room(
         name="Parkplatz am Baseballstadion",
-        description="Hier steht das Auto von Coach Ferguson.",
+        description="Hier steht das Auto von Coach Ferguson, welches Jacob reparieren muss, um zum Lovers Leap zu kommen.",
         exits={
             "westen": "mr_smiths_haus",
             "süden": "alter_baum",

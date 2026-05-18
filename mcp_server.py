@@ -4,8 +4,6 @@ MCP Server - Tools für Jacob Miller Textadventure
 from mcp.server.fastmcp import FastMCP
 import logging
 import sys
-
-# WICHTIG: Alle globalen Variablen importieren
 from world import WORLD, current_room, inventory
 
 logging.basicConfig(level=logging.INFO, stream=sys.stderr)
@@ -20,7 +18,6 @@ mcp = FastMCP("Jacob Miller")
 )
 def look() -> str:
     room = WORLD[current_room]
-    
     output = [f"**{room.name}**", room.description, ""]
 
     if room.items:
@@ -86,6 +83,7 @@ def use(item: str) -> str:
     if item not in inventory:
         return f"Du hast '{item}' nicht im Inventar."
 
+    # Kontext-spezifische Nutzung
     if current_room == "parkplatz_baseballstadion" and item in ["reifen_reparaturset", "wagenheber", "radkreuz"]:
         return "✅ Du reparierst den Reifen am Auto von Coach Ferguson."
 
@@ -95,21 +93,12 @@ def use(item: str) -> str:
     if current_room == "stadtbuecherei" and item == "foto_dnd_freunde":
         return "✅ Du betrachtest das alte Foto."
 
+    if current_room == "opas_haus" and item == "garage_schluessel":
+        return "✅ Du schließt die Garage auf."
+
     return f"Du weißt nicht, was du mit '{item}' an diesem Ort machen kannst."
 
 
 if __name__ == "__main__":
     logger.info("🚀 MCP Server gestartet")
     mcp.run(transport="stdio")
-
-@mcp.tool(
-    name="in_hand",
-    title="Nimm einen Gegenstand in die Hand",
-    description="Nimmt einen Gegenstand aus dem Inventar in die Hand (bereithalten)."
-)
-def in_hand(item: str) -> str:
-    if item not in inventory:
-        return f"Du hast '{item}' nicht im Inventar."
-
-    # Hier kannst du später spezielle Effekte einbauen
-    return f"Du nimmst '{item}' in die Hand. Du hältst es jetzt bereit."
