@@ -86,10 +86,10 @@ WORLD = {
 
     "opas_haus": Room(
         name="Haus von Opa Gerald",
-        description="Das alte Haus deines Großvaters.",
+        description="Das alte Haus deines Großvaters. Die Garage im Osten ist verschlossen.",
         exits={
             "westen": "friedhof",
-            "osten": "opas_garage",
+            "norden": "parkplatz_baseballstadion",
         },
         items=["garage_schluessel"]
     ),

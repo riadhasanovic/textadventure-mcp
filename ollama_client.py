@@ -79,6 +79,6 @@ def _parse_tool_call(answer: str) -> dict | None:
             parsed = parsed[0]
         if "tool" in parsed and "arguments" in parsed:
             return parsed
-    except:
+    except Exception:
         pass
     return None

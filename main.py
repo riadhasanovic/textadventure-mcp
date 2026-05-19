@@ -42,6 +42,22 @@ async def main():
                 continue
 
             response = await process_request(connector, user_input)
+
+            if "GAME_OVER_GOOD" in response:
+                clean = response.replace("GAME_OVER_GOOD", "").strip()
+                print(f"\nWelt: {clean}")
+                print("\n" + "=" * 75)
+                print("GUTES ENDE: Der Nebel löst sich auf. Jacob ist frei.")
+                print("=" * 75)
+                break
+            elif "GAME_OVER_BAD" in response:
+                clean = response.replace("GAME_OVER_BAD", "").strip()
+                print(f"\nWelt: {clean}")
+                print("\n" + "-" * 75)
+                print("Die Krähen zwingen dich zurück. Die Schleife beginnt von vorn...")
+                print("-" * 75)
+                break
+
             print(f"\nWelt: {response}")
 
 
@@ -51,9 +67,9 @@ def print_help():
     print("  schau dich um          → Beschreibt den aktuellen Ort")
     print("  geh nach norden        → Bewege dich (norden, süden, osten, westen)")
     print("  nimm [gegenstand]      → Nimmt einen Gegenstand auf")
+    print("  benutze [gegenstand]   → Benutze einen Gegenstand")
     print("  inventar               → Zeigt dein Inventar")
     print("  hilfe                  → Zeigt diese Hilfe")
-    print("  in hand [gegenstand]   → Nimm einen Gegenstand in die Hand")
     print("  quit / ende / exit     → Spiel beenden")
     print("-"*60)
 
@@ -79,6 +95,11 @@ async def process_request(connector: MCPConnector, user_input: str) -> str:
         item = lower.replace("nimm ", "").strip()
         result = await connector.call_tool("take", {"item": item})
         return result.output if result.success else f"'{item}' gibt es hier nicht."
+
+    if lower.startswith("benutze ") or lower.startswith("use "):
+        item = lower.replace("benutze ", "").replace("use ", "").strip()
+        result = await connector.call_tool("use", {"item": item})
+        return result.output if result.success else f"Du kannst '{item}' nicht benutzen."
 
     # Für alles andere den LLM verwenden
     tool_call = await ask_ollama(user_input, connector.get_tools_description())
