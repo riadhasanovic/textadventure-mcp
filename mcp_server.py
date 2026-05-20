@@ -2,9 +2,11 @@
 MCP Server - Tools für Jacob Miller Textadventure
 """
 from mcp.server.fastmcp import FastMCP
+import json
 import logging
 import sys
 import world
+import glossary
 
 logging.basicConfig(level=logging.INFO, stream=sys.stderr)
 logger = logging.getLogger(__name__)
@@ -27,6 +29,12 @@ REQUIRED_TASKS = {"car_fixed", "friends_reconciled", "grandpa_forgiven"}
 )
 def look() -> str:
     room = world.WORLD[world.current_room]
+
+    glossary.discover(world.current_room)
+    if world.current_room in ("friedhof", "opas_haus", "opas_garage"):
+        glossary.discover("opa_gerald")
+    if world.current_room == "mr_smiths_haus":
+        glossary.discover("smith")
 
     if world.current_room == "lovers_leap":
         if completed_tasks >= REQUIRED_TASKS:
@@ -120,6 +128,7 @@ def use(item: str) -> str:
         world.inventory.remove(item)
         if used_repair_tools >= REPAIR_TOOLS:
             completed_tasks.add("car_fixed")
+            glossary.discover("coach_ferguson")
             return (
                 "Du hebst das Auto an, löst die Bolzen und flickst den Reifen.\n"
                 "Coach Ferguson schaut kurz rüber und nickt dir wortlos zu.\n"
@@ -169,6 +178,15 @@ def use(item: str) -> str:
         return "Du betrachtest das alte Foto. Vier Jungs um einen Tisch, lachend. Wann wurde es so kompliziert?"
 
     return f"Du weißt nicht, was du mit '{item}' an diesem Ort machen kannst."
+
+
+@mcp.tool(
+    name="glossar",
+    title="Zeige das Glossar",
+    description="Gibt alle bisher entdeckten Personen und Orte als JSON zurück."
+)
+def glossar_tool() -> str:
+    return json.dumps(glossary.get_discovered(), ensure_ascii=False)
 
 
 if __name__ == "__main__":
