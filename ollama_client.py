@@ -9,7 +9,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-MODEL = os.getenv("OLLAMA_MODEL", "gemma3:4b")
+MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
 
 
 SYSTEM_PROMPT = """You are the game engine for a German text adventure. Your only job is to decide which tool to call based on the player's input.

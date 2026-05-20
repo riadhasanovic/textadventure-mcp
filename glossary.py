@@ -41,7 +41,7 @@ ENTRIES: Dict[str, GlossaryEntry] = {
     "alter_baum": GlossaryEntry(
         "alter_baum", "Ort", "Der alte Baum",
         "Der riesige, knorrige Baum im Herzen von Lovers Leap. "
-        "Hier beginnt Jacobs Schleife — und vielleicht endet sie hier auch."
+        "Hier beginnt Jacobs Alptraum qualvoller Erinnerungen."
     ),
     "jacobs_haus": GlossaryEntry(
         "jacobs_haus", "Ort", "Jacobs Haus",
@@ -54,18 +54,18 @@ ENTRIES: Dict[str, GlossaryEntry] = {
     ),
     "stadtbuecherei": GlossaryEntry(
         "stadtbuecherei", "Ort", "Stadtbibliothek",
-        "Der Treffpunkt für D&D-Abende. Ein Ort voller gemeinsamer Erinnerungen, "
-        "die Jacob lieber vergessen hätte."
+        "Der Treffpunkt für D&D-Abenteuer. Ein Ort voller gemeinsamer Erinnerungen, "
+        "die Jacob plagen."
     ),
     "mr_smiths_haus": GlossaryEntry(
         "mr_smiths_haus", "Ort", "Haus von Hausmeister Smith",
-        "Das bescheidene Haus am Rand der Stadt. "
+        "Das bescheidene Haus hinter der Highschool. "
         "Werkzeuge für jeden Zweck hängen ordentlich an der Wand."
     ),
     "parkplatz_baseballstadion": GlossaryEntry(
         "parkplatz_baseballstadion", "Ort", "Parkplatz am Baseballstadion",
-        "Der staubige Parkplatz neben dem Baseballfeld. "
-        "Coach Fergusons Auto wartet mit einem platten Reifen."
+        "Der herabgekommene Parkplatz neben dem Baseballfeld. "
+        "Coach Fergusons Auto steht hier mit einem platten Reifen."
     ),
     "friedhof": GlossaryEntry(
         "friedhof", "Ort", "Friedhof",

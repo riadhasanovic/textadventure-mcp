@@ -75,6 +75,22 @@ def render_response(text: str):
     console.print(Markdown(text))
 
 
+def _extract_manifestation(text: str) -> tuple[str, str | None]:
+    start = "FOG_MANIFESTATION_START"
+    end = "FOG_MANIFESTATION_END"
+    if start in text and end in text:
+        before = text[:text.index(start)].rstrip()
+        fog = text[text.index(start) + len(start):text.index(end)].strip()
+        return before, fog
+    return text, None
+
+
+def render_fog_manifestation(text: str):
+    console.print()
+    console.print(text, style="dim italic white")
+    console.print()
+
+
 async def main():
     console.print(Panel(
         Text("LOVERS LEAP", justify="center", style="bold"),
@@ -117,26 +133,31 @@ async def main():
             response = await process_request(connector, user_input)
             lower_cmd = user_input.lower()
 
-            if "GAME_OVER_GOOD" in response:
-                clean = response.replace("GAME_OVER_GOOD", "").strip()
+            main_response, fog = _extract_manifestation(response)
+
+            if "GAME_OVER_GOOD" in main_response:
+                clean = main_response.replace("GAME_OVER_GOOD", "").strip()
                 render_response(clean)
                 console.print(Panel(
                     Text("GUTES ENDE: Der Nebel löst sich auf. Jacob ist frei.", justify="center", style="bold"),
                 ))
                 break
-            elif "GAME_OVER_BAD" in response:
-                clean = response.replace("GAME_OVER_BAD", "").strip()
+            elif "GAME_OVER_BAD" in main_response:
+                clean = main_response.replace("GAME_OVER_BAD", "").strip()
                 render_response(clean)
                 console.print(Panel(
                     Text("Die Krähen zwingen dich zurück. Die Schleife beginnt von vorn...", justify="center", style="bold"),
                 ))
                 break
             elif lower_cmd in ["inventar", "inventory"]:
-                render_inventory(response)
-            elif _is_room_output(response):
-                render_room(response)
+                render_inventory(main_response)
+            elif _is_room_output(main_response):
+                render_room(main_response)
             else:
-                render_response(response)
+                render_response(main_response)
+
+            if fog:
+                render_fog_manifestation(fog)
 
 
 def print_help():

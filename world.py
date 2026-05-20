@@ -91,14 +91,15 @@ WORLD = {
         exits={
             "westen": "friedhof",
             "norden": "parkplatz_baseballstadion",
+            "osten": "opas_garage",
         },
         items=["garage_schluessel"]
     ),
 
 
     "opas_garage": Room(
-        name="Garage von Opa Gerald.",
-        description="Hier hat er gerne Sachen gebastelt für Jacob als er klein war.",
+        name="Garage von Opa Gerald",
+        description="Die Garagentür ist abgeschlossen. Durch das kleine Fenster siehst du Werkzeug und alte Kisten.",
         exits={
             "westen": "opas_haus"
         },
