@@ -69,11 +69,14 @@ class MCPConnector:
             logger.debug(f"Tool aufrufen: {tool_name}({arguments})")
             result = await self.session.call_tool(tool_name, arguments=arguments)
 
-            if result.isError:
+            if getattr(result, 'isError', False):
                 error_msg = str(result.content) if result.content else "Unbekannter Fehler"
                 return ToolResult(success=False, output="", error=error_msg)
 
-            output = result.content[0].text if result.content else ""
+            if not result or not result.content:
+                return ToolResult(success=True, output="")
+            first = result.content[0]
+            output = first.text if hasattr(first, 'text') else str(first)
             return ToolResult(success=True, output=output)
 
         except Exception as e:

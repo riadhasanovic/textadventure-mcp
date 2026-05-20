@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from typing import Dict, List
 
 class Room(BaseModel):
+    model_config = ConfigDict(validate_assignment=True, frozen=False)
     name: str
     description: str
     exits: Dict[str, str] = {}

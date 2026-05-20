@@ -12,11 +12,19 @@ BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL = os.getenv("OLLAMA_MODEL", "gemma3:4b")
 
 
-SYSTEM_PROMPT = """
-Du bist ein nüchterner, direkter Erzähler eines Textadventures.
-Schreibe **kurz, sachlich und in der Gegenwartsform**.
-Maximal 2–3 kurze Sätze. Keine Poesie, keine Metaphern, keine langen Beschreibungen.
-"""
+SYSTEM_PROMPT = """You are the game engine for a German text adventure. Your only job is to decide which tool to call based on the player's input.
+
+Respond ONLY with a JSON object in this exact format:
+{"tool": "<tool_name>", "arguments": {<args>}}
+
+Examples:
+Input: geh nach norden → {"tool": "move", "arguments": {"direction": "norden"}}
+Input: schau dich um   → {"tool": "look", "arguments": {}}
+Input: nimm wagenheber → {"tool": "take", "arguments": {"item": "wagenheber"}}
+Input: benutze handy   → {"tool": "use", "arguments": {"item": "jacobs_altes_handy"}}
+Input: inventar        → {"tool": "inventory", "arguments": {}}
+
+Never output prose, markdown, or explanations — only the JSON object."""
 
 
 async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
@@ -32,7 +40,7 @@ async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
         try:
             response = await client.post(
                 url,
-                json={"model": MODEL, "messages": messages, "temperature": 0.0, "stream": False},
+                json={"model": MODEL, "messages": messages, "temperature": 0.0, "stream": False, "format": "json"},
                 timeout=60.0
             )
             response.raise_for_status()
@@ -48,6 +56,9 @@ async def format_result(tool_name: str, result: str) -> str:
     """Sehr strikte Formatierung – besonders für inventory und look"""
     if tool_name == "inventory":
         return result  # Direkte Ausgabe ohne LLM
+
+    if "GAME_OVER_GOOD" in result or "GAME_OVER_BAD" in result:
+        return result
 
     # Für look und andere Tools extrem kurz halten
     url = f"{BASE_URL}/api/chat"
