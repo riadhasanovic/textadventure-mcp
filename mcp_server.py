@@ -40,7 +40,7 @@ MANIFESTATIONS: dict[str, str] = {
     ),
     "coach_ferguson": (
         "Coach Ferguson tritt aus dem Nebel. Sein Blick ist ernst, aber nicht hart.\n"
-        "\"Du hättest viel erreichen können, Jacob. Doch dein Ego war größer als du selbst...\n"
+        "\"Du hättest viel erreichen können, Jacob. Dein falscher Stolz war größer als du selbst.\"\n"
         "Doch für den Weg der Besserung ist es noch nicht zu spät.\"\n"
         "Er nickt dir zu und verschwindet wieder im Nebel."
     ),
@@ -154,9 +154,10 @@ def take(item: str) -> str:
     description="Zeigt alle gesammelten Gegenstände."
 )
 def inventory_tool() -> str:
-    if world.inventory:
-        return f"In deinem Inventar: {', '.join(world.inventory)}"
-    return "Dein Inventar ist leer."
+    if not world.inventory:
+        return "Dein Inventar ist leer."
+    items = [{"name": item, "description": world.ITEMS.get(item, "")} for item in world.inventory]
+    return json.dumps(items, ensure_ascii=False)
 
 
 @mcp.tool(
@@ -191,7 +192,6 @@ def use(item: str) -> str:
             glossary.discover("coach_ferguson")
             return (
                 "Du hebst das Auto an, löst die Bolzen und flickst den Reifen.\n"
-                "Coach Ferguson schaut kurz rüber und nickt dir wortlos zu.\n"
                 "Etwas in deiner Brust wird leichter."
                 + _fog_manifestation("coach_ferguson")
             )

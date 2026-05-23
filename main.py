@@ -34,17 +34,20 @@ def render_room(text: str):
 
 
 def render_inventory(text: str):
-    if "leer" in text.lower() or ":" not in text:
+    if "leer" in text.lower():
         console.print(Panel(Text("Dein Inventar ist leer.", style="dim"), title="[bold]Inventar[/]"))
         return
-    items_part = text.split(":", 1)[1].strip()
-    items = [i.strip() for i in items_part.split(",") if i.strip()]
+    try:
+        items = json.loads(text)
+    except json.JSONDecodeError:
+        console.print(Panel(Text(text, style="dim"), title="[bold]Inventar[/]"))
+        return
     table = Table(title="Inventar", show_lines=True, highlight=False)
     table.add_column("Gegenstand", style="default", no_wrap=True)
     table.add_column("Beschreibung", style="default")
     for item in items:
-        display = item.replace("_", " ").title()
-        table.add_row(display, "")
+        display = item["name"].replace("_", " ").title()
+        table.add_row(display, item.get("description", ""))
     console.print(table)
 
 

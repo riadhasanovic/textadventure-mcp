@@ -117,6 +117,18 @@ WORLD = {
     )
 }
 
+ITEMS: Dict[str, str] = {
+    "opas_altes_schnitzmesser": "Ein abgewetztes Schnitzmesser. Der Griff ist von Opas Händen glattgescheuert.",
+    "dnd_brettspiel": "Euer altes D&D-Brettspiel. Die Würfel klappern noch im Karton.",
+    "foto_dnd_freunde": "Ein vergilbtes Foto. Vier Jungs um einen Tisch, lachend.",
+    "wagenheber": "Ein robuster Wagenheber. Schwer, aber zuverlässig.",
+    "reifen_reparaturset": "Ein Reifen-Reparaturset. Alles drin, um einen platten Reifen zu flicken.",
+    "radkreuz": "Ein Radkreuz aus Stahl. Damit lösen sich selbst festsitzende Radmuttern.",
+    "garage_schluessel": "Ein kleiner, rostiger Schlüssel. Er öffnet Opas Garage.",
+    "jacobs_altes_handy": "Dein altes Handy. Der Akku hält noch – gerade so.",
+    "feuerzeug": "Ein billiges Einwegfeuerzeug, schon halb leer.",
+}
+
 # Globaler Spielzustand
 current_room: str = "alter_baum"
 inventory: List[str] = []
