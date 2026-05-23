@@ -77,6 +77,70 @@ async def format_result(tool_name: str, result: str) -> str:
             return result
 
 
+_PHONE_CHOICE_PROMPT = """Du klassifizierst Spielereingaben für ein deutsches Textadventure.
+Die Entscheidung: Soll Jacob die Sprachnachrichten seines Opas anhören oder löschen?
+
+Antworte NUR mit einem dieser drei JSON-Objekte — keine Erklärungen, kein Prosa:
+{"choice": "phone_listen"}   — Eingabe bedeutet anhören/abspielen/hören/zuhören
+{"choice": "phone_delete"}   — Eingabe bedeutet löschen/entfernen/wegwerfen/ignorieren/verwerfen
+{"choice": "unclear"}        — Eingabe ist mehrdeutig oder unbekannt"""
+
+
+async def classify_phone_choice(user_input: str) -> str:
+    url = f"{BASE_URL}/api/chat"
+    messages = [
+        {"role": "system", "content": _PHONE_CHOICE_PROMPT},
+        {"role": "user", "content": user_input},
+    ]
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                url,
+                json={"model": MODEL, "messages": messages, "temperature": 0.0, "stream": False, "format": "json"},
+                timeout=30.0,
+            )
+            response.raise_for_status()
+            data = response.json()
+            parsed = json.loads(data["message"]["content"].strip())
+            choice = parsed.get("choice", "unclear")
+            return choice if choice in ("phone_listen", "phone_delete") else "unclear"
+        except Exception as e:
+            logger.error(f"Fehler bei Telefon-Klassifikation: {e}")
+            return "unclear"
+
+
+_PHOTO_CHOICE_PROMPT = """Du klassifizierst Spielereingaben für ein deutsches Textadventure.
+Die Entscheidung: Soll Jacob das Foto anschauen oder verbrennen?
+
+Antworte NUR mit einem dieser drei JSON-Objekte — keine Erklärungen, kein Prosa:
+{"choice": "photo_view"}   — Eingabe bedeutet anschauen/betrachten/ansehen/behalten/beobachten
+{"choice": "photo_burn"}   — Eingabe bedeutet verbrennen/anzünden/abfackeln/zerstören/verbrennen
+{"choice": "unclear"}      — Eingabe ist mehrdeutig oder unbekannt"""
+
+
+async def classify_photo_choice(user_input: str) -> str:
+    url = f"{BASE_URL}/api/chat"
+    messages = [
+        {"role": "system", "content": _PHOTO_CHOICE_PROMPT},
+        {"role": "user", "content": user_input},
+    ]
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.post(
+                url,
+                json={"model": MODEL, "messages": messages, "temperature": 0.0, "stream": False, "format": "json"},
+                timeout=30.0,
+            )
+            response.raise_for_status()
+            data = response.json()
+            parsed = json.loads(data["message"]["content"].strip())
+            choice = parsed.get("choice", "unclear")
+            return choice if choice in ("photo_view", "photo_burn") else "unclear"
+        except Exception as e:
+            logger.error(f"Fehler bei Foto-Klassifikation: {e}")
+            return "unclear"
+
+
 def _parse_tool_call(answer: str) -> dict | None:
     clean = answer.strip()
     if "```" in clean:

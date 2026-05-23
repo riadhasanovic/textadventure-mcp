@@ -34,12 +34,15 @@ WORLD = {
 
     "highschool": Room(
         name="Highschool",
-        description="Deine alte Highschool.",
+        description=(
+            "Deine alte Highschool. Am Westeingang stehst du, wo damals einige "
+            "mit dem Rauchen begonnen haben."
+        ),
         exits={
             "süden": "stadtbuecherei",
             "norden": "mr_smiths_haus"
         },
-        items=[]
+        items=["feuerzeug"]
     ),
 
     "stadtbuecherei": Room(
@@ -65,7 +68,7 @@ WORLD = {
 
     "parkplatz_baseballstadion": Room(
         name="Parkplatz am Baseballstadion",
-        description="Hier steht das Auto von Coach Ferguson, welches Jacob reparieren muss, um zum Lovers Leap zu kommen.",
+        description="Hier steht das Auto von Coach Ferguson.",
         exits={
             "westen": "mr_smiths_haus",
             "süden": "alter_baum",

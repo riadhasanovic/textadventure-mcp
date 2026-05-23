@@ -13,7 +13,7 @@ from rich.table import Table
 from rich.text import Text
 
 from mcp_connector import MCPConnector
-from ollama_client import ask_ollama, format_result
+from ollama_client import ask_ollama, format_result, classify_phone_choice, classify_photo_choice
 
 logging.basicConfig(level=logging.INFO, stream=sys.stderr)
 logger = logging.getLogger(__name__)
@@ -106,6 +106,8 @@ async def main():
     console.print("[dim]Tipp 'hilfe', wenn du nicht weiter weißt.[/dim]")
 
     connector = MCPConnector()
+    awaiting_phone_choice = False
+    awaiting_photo_choice = False
 
     async with connector.connect():
         while True:
@@ -130,7 +132,40 @@ async def main():
                 render_glossary(result.output if result.success else "[]")
                 continue
 
-            response = await process_request(connector, user_input)
+            if awaiting_phone_choice:
+                choice = await classify_phone_choice(user_input)
+                if choice == "phone_listen":
+                    result = await connector.call_tool("phone_listen", {})
+                    response = result.output if result.success else "Etwas stimmt nicht..."
+                    awaiting_phone_choice = False
+                elif choice == "phone_delete":
+                    result = await connector.call_tool("phone_delete", {})
+                    response = result.output if result.success else "Etwas stimmt nicht..."
+                    awaiting_phone_choice = False
+                else:
+                    response = "Ich verstehe nicht ganz. Möchtest du die Nachrichten anhören oder löschen?"
+            elif awaiting_photo_choice:
+                choice = await classify_photo_choice(user_input)
+                if choice == "photo_view":
+                    result = await connector.call_tool("photo_view", {})
+                    response = result.output if result.success else "Etwas stimmt nicht..."
+                    awaiting_photo_choice = False
+                elif choice == "photo_burn":
+                    result = await connector.call_tool("photo_burn", {})
+                    response = result.output if result.success else "Etwas stimmt nicht..."
+                    awaiting_photo_choice = False
+                else:
+                    response = "Ich verstehe nicht ganz. Möchtest du das Foto betrachten oder verbrennen?"
+            else:
+                response = await process_request(connector, user_input)
+
+            if "AWAITING_PHONE_CHOICE" in response:
+                response = response.replace("AWAITING_PHONE_CHOICE", "").strip()
+                awaiting_phone_choice = True
+            if "AWAITING_PHOTO_CHOICE" in response:
+                response = response.replace("AWAITING_PHOTO_CHOICE", "").strip()
+                awaiting_photo_choice = True
+
             lower_cmd = user_input.lower()
 
             main_response, fog = _extract_manifestation(response)

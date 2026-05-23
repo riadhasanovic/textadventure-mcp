@@ -21,6 +21,12 @@ used_repair_tools: set[str] = set()
 triggered_manifestations: set[str] = set()
 # Whether the garage has been unlocked with the key.
 garage_unlocked: bool = False
+# Whether the player is awaiting a phone choice at the cemetery.
+awaiting_phone_choice: bool = False
+# Whether the player is awaiting a photo choice.
+awaiting_photo_choice: bool = False
+# Tracks moral tasks the player deliberately failed.
+failed_tasks: set[str] = set()
 
 REPAIR_TOOLS = {"wagenheber", "reifen_reparaturset", "radkreuz"}
 REQUIRED_TASKS = {"car_fixed", "friends_reconciled", "grandpa_forgiven"}
@@ -170,12 +176,10 @@ def use(item: str) -> str:
             "Etwas Dunkles steigt in dir auf — all der alte Groll, die unausgesprochene Wut.\n"
             "Bevor du es aufhalten kannst, greifst du zum Messer und stichst in die verbliebenen Reifen.\n"
             "Das Zischen der entweichenden Luft klingt wie ein letzter Atemzug.\n\n"
-            "Coach Ferguson tritt hinter dem Auto hervor. Sein Gesicht ist wie Stein.\n"
+            "Coach Ferguson tritt hinter dem Nebel hervor. Sein Gesicht ist wie Stein.\n"
             "'Jacob Miller.' Mehr sagt er nicht.\n\n"
-            "Die Polizei kommt schneller als du denkst. Dein Traum von Lovers Leap — von allem —\n"
-            "löst sich auf wie der Nebel am frühen Morgen.\n"
             "Manche Wunden heilt man nicht. Manche reißt man nur weiter auf.\n\n"
-            "GAME_OVER_BAD"
+            
         )
 
     # --- AUFGABE 1: Coach Fergusons Auto reparieren ---
@@ -196,6 +200,8 @@ def use(item: str) -> str:
 
     # --- AUFGABE 2: D&D-Freunde versöhnen ---
     if world.current_room == "stadtbuecherei" and item == "dnd_brettspiel":
+        if "friends_reconciled" in failed_tasks:
+            return "Es hat keinen Sinn mehr. Die Erinnerung an eure Freundschaft ist fort."
         completed_tasks.add("friends_reconciled")
         world.inventory.remove(item)
         return (
@@ -205,15 +211,15 @@ def use(item: str) -> str:
             + _fog_manifestation("dnd_friends")
         )
 
-    # --- AUFGABE 3: Opa Gerald ehren ---
+    # --- AUFGABE 3: Opa Gerald ehren (Entscheidung ausstehend) ---
     if world.current_room == "friedhof" and item == "jacobs_altes_handy":
-        completed_tasks.add("grandpa_forgiven")
-        world.inventory.remove(item)
+        global awaiting_phone_choice
+        awaiting_phone_choice = True
         return (
-            "Du öffnest die alten Sprachnachrichten auf dem Handy.\n"
-            "Opa Geralds Stimme: 'Jacob, ich vermisse dich. Ruf mich an, wenn du kannst.'\n"
-            "Du hast nie zurückgerufen. Tränen laufen über dein Gesicht."
-            + _fog_manifestation("opa_gerald")
+            "Du hältst Opas altes Handy in der Hand. Auf dem Display:\n"
+            "drei ungehörte Sprachnachrichten von ihm.\n"
+            "Hörst du sie an — oder löschst du sie ungehört?\n"
+            "AWAITING_PHONE_CHOICE"
         )
 
     if world.current_room == "friedhof" and item == "opas_altes_schnitzmesser":
@@ -234,11 +240,96 @@ def use(item: str) -> str:
         world.inventory.remove(item)
         return "Du schließt die Garage auf. Die Tür schwingt auf."
 
-    # --- Foto betrachten (bleibt im Inventar) ---
+    # --- Foto betrachten / Entscheidung ausstehend ---
     if item == "foto_dnd_freunde":
-        return "Du betrachtest das alte Foto. Vier Jungs um einen Tisch, lachend. Wann wurde es so kompliziert?"
+        if "feuerzeug" not in world.inventory:
+            return "Du betrachtest das alte Foto. Vier Jungs um einen Tisch, lachend. Wann wurde es so kompliziert?"
+        global awaiting_photo_choice
+        awaiting_photo_choice = True
+        return (
+            "Du hältst das Foto in der einen Hand, das Feuerzeug in der anderen.\n"
+            "Du könntest es einfach betrachten — oder es verbrennen.\n"
+            "Was tust du?\n"
+            "AWAITING_PHOTO_CHOICE"
+        )
 
     return f"Du weißt nicht, was du mit '{item}' an diesem Ort machen kannst."
+
+
+@mcp.tool(
+    name="phone_listen",
+    title="Sprachnachrichten anhören",
+    description="Hör Opas Sprachnachrichten an. Nur gültig, wenn eine Entscheidung aussteht."
+)
+def phone_listen() -> str:
+    global awaiting_phone_choice
+    if not awaiting_phone_choice:
+        return "Das ergibt hier gerade keinen Sinn."
+    completed_tasks.add("grandpa_forgiven")
+    world.inventory.remove("jacobs_altes_handy")
+    awaiting_phone_choice = False
+    glossary.discover("opa_gerald")
+    return (
+        "Du öffnest die alten Sprachnachrichten auf dem Handy.\n"
+        "Opa Geralds Stimme: 'Jacob, ich vermisse dich. Ruf mich an, wenn du kannst.'\n"
+        "Du hast nie zurückgerufen. Tränen laufen über dein Gesicht."
+        + _fog_manifestation("opa_gerald")
+    )
+
+
+@mcp.tool(
+    name="phone_delete",
+    title="Sprachnachrichten löschen",
+    description="Lösch Opas Sprachnachrichten ungehört. Nur gültig, wenn eine Entscheidung aussteht."
+)
+def phone_delete() -> str:
+    global awaiting_phone_choice
+    if not awaiting_phone_choice:
+        return "Das ergibt hier gerade keinen Sinn."
+    failed_tasks.add("grandpa_forgiven")
+    world.inventory.remove("jacobs_altes_handy")
+    awaiting_phone_choice = False
+    return (
+        "Dein Daumen schwebt über der Löschtaste. Dann drückst du zu.\n"
+        "Opas Stimme verstummt für immer, ungehört.\n"
+        "Der Nebel um dich herum wird einen Moment lang eisig kalt."
+    )
+
+
+@mcp.tool(
+    name="photo_view",
+    title="Foto betrachten",
+    description="Betrachte das Foto ruhig. Nur gültig, wenn eine Entscheidung aussteht."
+)
+def photo_view() -> str:
+    global awaiting_photo_choice
+    if not awaiting_photo_choice:
+        return "Das ergibt hier gerade keinen Sinn."
+    awaiting_photo_choice = False
+    return "Du betrachtest das alte Foto. Vier Jungs um einen Tisch, lachend. Wann wurde es so kompliziert?"
+
+
+@mcp.tool(
+    name="photo_burn",
+    title="Foto verbrennen",
+    description="Verbrenn das Foto mit dem Feuerzeug. Nur gültig, wenn eine Entscheidung aussteht."
+)
+def photo_burn() -> str:
+    global awaiting_photo_choice
+    if not awaiting_photo_choice:
+        return "Das ergibt hier gerade keinen Sinn."
+    awaiting_photo_choice = False
+    failed_tasks.add("friends_reconciled")
+    world.inventory.remove("foto_dnd_freunde")
+    if "dnd_brettspiel" in world.inventory:
+        world.inventory.remove("dnd_brettspiel")
+    return (
+        "Du lässt das Feuerzeug aufschnappen. Die kleine Flamme spiegelt sich\n"
+        "in den lachenden Gesichtern auf dem Foto.\n"
+        "Dann hältst du es an die Ecke. Das Papier kräuselt sich,\n"
+        "die Gesichter deiner Freunde lösen sich in Rauch auf.\n"
+        "Was du verbrannt hast, lässt sich nicht zurückholen."
+    )
 
 
 @mcp.tool(
