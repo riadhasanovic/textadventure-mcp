@@ -40,10 +40,11 @@ MANIFESTATIONS: dict[str, str] = {
     ),
     "coach_ferguson": (
         "Coach Ferguson tritt aus dem Nebel. Sein Blick ist ernst, aber nicht hart.\n"
-        "\"Du hättest viel erreichen können, Jacob. Dein falscher Stolz war größer als du selbst.\"\n"
+        "\"Du hättest viel erreichen können, Jacob. Dein falscher Stolz war größer als du selbst.\n"
         "Doch für den Weg der Besserung ist es noch nicht zu spät.\"\n"
         "Er nickt dir zu und verschwindet wieder im Nebel."
     ),
+    
     "opa_gerald": (
         "Aus dem Nebel tritt dein Großvater. Sein Lächeln ist warm, wie du es in Erinnerung hast.\n"
         "\"Mein Junge, schön dass du mich besuchen kommst. Du brauchst dir wegen\n"
@@ -75,7 +76,17 @@ def look() -> str:
         glossary.discover("smith")
 
     if world.current_room == "lovers_leap":
-        if completed_tasks >= REQUIRED_TASKS:
+        if failed_tasks:
+            return (
+                f"**{room.name}**\n"
+                f"{room.description}\n\n"
+                "Die Krähen kreisen tief über dir, ihre Schreie wie Anklagen.\n"
+                "Du hast deine Erinnerungen durchlebt — doch du hast sie verraten,\n"
+                "eine nach der anderen. Der Nebel wird dichter, kälter.\n"
+                "Er wird dich nie wieder freigeben.\n"
+                "GAME_OVER_BAD"
+            )
+        elif completed_tasks >= REQUIRED_TASKS:
             return (
                 f"**{room.name}**\n"
                 f"{room.description}\n\n"
@@ -90,13 +101,21 @@ def look() -> str:
                 "grandpa_forgiven": "Opa Geralds Erinnerungen ehren",
             }
             missing = [task_names[t] for t in REQUIRED_TASKS - completed_tasks]
-            return (
-                f"**{room.name}**\n"
-                f"{room.description}\n\n"
-                "Die Krähen kreischen. Du spürst: Die Zeit ist noch nicht reif.\n"
-                f"Ungelöst: {', '.join(missing)}.\n"
-                "GAME_OVER_BAD"
-            )
+            output = [
+                f"**{room.name}**",
+                room.description,
+                "",
+                "Die Krähen kreischen über dir. Du spürst: Die Zeit ist noch nicht reif.",
+                "Erst wenn du deine Erinnerungen durchlebt hast, kannst du hier Frieden finden.",
+                f"Ungelöst: {', '.join(missing)}.",
+                "",
+            ]
+            if room.exits:
+                output.append("Von hier aus kannst du folgende Orte erreichen:")
+                for richtung, ziel in room.exits.items():
+                    ziel_name = world.WORLD[ziel].name
+                    output.append(f"  • {richtung.capitalize():<12} → {ziel_name}")
+            return "\n".join(output)
 
     description = room.description
     items_visible = room.items
@@ -144,6 +163,10 @@ def take(item: str) -> str:
     if item in room.items:
         room.items.remove(item)
         world.inventory.append(item)
+        if item == "foto_dnd_freunde":
+            glossary.discover("billy")
+            glossary.discover("zack")
+            glossary.discover("josh")
         return f"Du hast '{item}' aufgenommen."
     return f"'{item}' gibt es hier nicht."
 

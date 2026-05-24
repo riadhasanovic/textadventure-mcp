@@ -1,36 +1,45 @@
 classDiagram
-    class OllamaClient {
-        +str BASE_URL
-        +str MODEL
-        +str SYSTEM_PROMPT
-        +ask_ollama(user_message: str, tools_description: str) dict
-        +format_result(tool_name: str, result: str) str
-        -_parse_tool_call(answer: str) dict
+    class OllamaClientModule {
+        +BASE_URL : str
+        +MODEL : str
+        +SYSTEM_PROMPT : str
+        +_PHONE_LISTEN_WORDS : frozenset
+        +_PHONE_DELETE_WORDS : frozenset
+        +_PHOTO_VIEW_WORDS : frozenset
+        +_PHOTO_BURN_WORDS : frozenset
+        +_PHONE_CHOICE_PROMPT : str
+        +_PHOTO_CHOICE_PROMPT : str
+        +ask_ollama(user_message: str, tools_description: str) : dict | None
+        +format_result(tool_name: str, result: str) : str
+        +classify_phone_choice(user_input: str) : str
+        +classify_photo_choice(user_input: str) : str
+        +_keyword_match(user_input: str, a_words: frozenset, b_words: frozenset) : str | None
+        +_parse_tool_call(answer: str) : dict | None
     }
-    
-    class Logger {
-        +getLogger(name: str) Logger
-        +error(msg: str)
+
+    class ToolCall {
+        +tool : str
+        +arguments : dict
     }
-    
-    class HTTPXClient {
-        +post(url: str, json: dict, timeout: float) Response
-        +raise_for_status()
+
+    class PhoneChoiceResponse {
+        +choice : str
     }
-    
-    class Response {
-        +json() dict
-        +raise_for_status()
+
+    class PhotoChoiceResponse {
+        +choice : str
     }
-    
-    class Environment {
-        +getenv(key: str, default: str) str
+
+    class OllamaAPI {
+        +url : str
+        +model : str
+        +messages : list
+        +temperature : float
+        +stream : bool
+        +format : str
     }
-    
-    OllamaClient --> Logger : verwendet
-    OllamaClient --> HTTPXClient : verwendet für API-Calls
-    OllamaClient --> Environment : liest Konfiguration
-    HTTPXClient --> Response : erzeugt
-    
-    note for OllamaClient "Singleton-ähnliche Nutzung\nAsynchrone Methoden"
-    note for OllamaClient._parse_tool_call "Privat-Methode\nExtrahiert JSON aus LLM-Antwort"
+
+    OllamaClientModule ..> ToolCall : erzeugt
+    OllamaClientModule ..> PhoneChoiceResponse : nutzt (JSON)
+    OllamaClientModule ..> PhotoChoiceResponse : nutzt (JSON)
+    OllamaClientModule --> OllamaAPI : kommuniziert mit

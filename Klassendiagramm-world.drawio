@@ -1,34 +1,33 @@
 classDiagram
     class Room {
-        +str name
-        +str description
-        +Dict[str, str] exits
-        +List[str] items
-        +__init__(name: str, description: str, exits: Dict[str, str], items: List[str])
+        <<pydantic BaseModel>>
+        +name : str
+        +description : str
+        +exits : Dict[str, str]
+        +items : List[str]
+        +model_config : ConfigDict
     }
-    
-    class World {
-        +Dict[str, Room] WORLD
+
+    class WorldData {
+        <<module-level constants>>
+        +WORLD : Dict[str, Room]
+        +ITEMS : Dict[str, str]
+        +current_room : str
+        +inventory : List[str]
     }
-    
-    class GameState {
-        +str current_room
-        +List[str] inventory
-        +int collected_fragments
-    }
-    
+
     class BaseModel {
-        <<Pydantic>>
-        +dict() dict
-        +json() str
-        +validate() Room
+        <<extern (pydantic)>>
+        +model_config : ConfigDict
     }
-    
-    Room --|> BaseModel : erbt von
-    
-    World --> Room : enthält (Dictionary)
-    GameState --> Room : referenziert (current_room)
-    
-    note for Room "Pydantic BaseModel\nAutomatische Validierung"
-    note for World "Konstante Spielwelt\nStatische Raum-Definitionen"
-    note for GameState "Globale Variablen\nVeränderlicher Spielzustand"
+
+    class ConfigDict {
+        <<extern (pydantic)>>
+        +validate_assignment : bool
+        +frozen : bool
+    }
+
+    Room --|> BaseModel : erbt
+    Room --> ConfigDict : verwendet (model_config)
+    WorldData --> Room : enthält (WORLD)
+    WorldData --> BaseModel : nutzt indirekt

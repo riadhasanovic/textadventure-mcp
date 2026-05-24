@@ -1,41 +1,64 @@
 classDiagram
-    class MainProgram {
-        +main() None
-        +process_request(connector: MCPConnector, user_input: str) str
-        -logger Logger
+    class MainGame {
+        +main() : None
+        +process_request(connector: MCPConnector, user_input: str) : str
+        +print_help() : None
+        +render_room(text: str) : None
+        +render_inventory(text: str) : None
+        +render_glossary(text: str) : None
+        +render_response(text: str) : None
+        +render_fog_manifestation(text: str) : None
+        +_is_room_output(text: str) : bool
+        +_extract_manifestation(text: str) : tuple[str, str | None]
     }
-    
+
     class MCPConnector {
-        +connect() AsyncContextManager
-        +get_tools_description() str
-        +call_tool(tool_name: str, arguments: dict) ToolResult
+        +connect() : AsyncContextManager
+        +call_tool(tool_name: str, arguments: dict) : ToolResult
+        +get_tools_description() : str
     }
-    
-    class OllamaClient {
-        +ask_ollama(user_message: str, tools_description: str) dict
-        +format_result(tool_name: str, result: str) str
-    }
-    
+
     class ToolResult {
-        +bool success
-        +str output
-        +str error
+        +success : bool
+        +output : str
+        +error : str | None
     }
-    
-    class Logger {
-        +basicConfig()
-        +getLogger(name: str) Logger
-        +info(msg: str)
-        +error(msg: str)
+
+    class OllamaClient {
+        +ask_ollama(user_message: str, tools_description: str) : dict | None
+        +format_result(tool_name: str, result: str) : str
+        +classify_phone_choice(user_input: str) : str
+        +classify_photo_choice(user_input: str) : str
     }
+
+    class RichConsole {
+        +print() : None
+        +print(Panel) : None
+        +print(Table) : None
+        +print(Markdown) : None
+    }
+
+    class GameState {
+        +awaiting_phone_choice : bool
+        +awaiting_photo_choice : bool
+        +connector : MCPConnector
+    }
+
+    class HelpCommand {
+        +table : Table
+        +commands : dict
+    }
+
+    MainGame --> MCPConnector : verwendet
+    MainGame --> OllamaClient : importiert & nutzt
+    MainGame --> RichConsole : nutzt (global)
+    MainGame --> GameState : verwaltet (lokal in main)
+    MainGame --> HelpCommand : nutzt (print_help)
     
-    MainProgram --> MCPConnector : erstellt und nutzt
-    MainProgram --> OllamaClient : importiert Funktionen
-    MainProgram --> Logger : verwendet für Logging
-    MainProgram --> ToolResult : verarbeitet Ergebnis
+    MCPConnector --> ToolResult : erzeugt
     
-    OllamaClient --> ToolResult : erzeugt (implizit)
+    OllamaClient ..> MainGame : async aufruf (process_request)
     
-    note for MainProgram "Hauptschleife des Textadventures\nVerarbeitet Benutzereingaben"
-    note for MainProgram.process_request "Core Logic:\n1. Ollama fragen\n2. Tool ausführen\n3. Ergebnis formatieren"
-    note for MCPConnector "Vermittelt zwischen Spiel und Tools\nStellt Tool-Description bereit"
+    note for MainGame "Hauptschleife:\n- User Input verarbeiten\n- State-Machine für Choice\n- Rendering verschiedener Ausgaben"
+    note for GameState "Flags:\n- awaiting_phone_choice\n- awaiting_photo_choice"
+    note for HelpCommand "Hilfetabelle mit\nverfügbaren Befehlen"

@@ -2,6 +2,7 @@
 Ollama Client - Strenge Version für Jacob Miller
 """
 import os
+import re
 import json
 import httpx
 import logging
@@ -77,6 +78,24 @@ async def format_result(tool_name: str, result: str) -> str:
             return result
 
 
+_PHONE_LISTEN_WORDS = frozenset({"anhören", "hören", "abspielen", "zuhören", "anhöre", "höre", "abspiele"})
+_PHONE_DELETE_WORDS = frozenset({"löschen", "entfernen", "wegwerfen", "ignorieren", "verwerfen", "lösche"})
+
+_PHOTO_VIEW_WORDS = frozenset({"betrachten", "anschauen", "ansehen", "angucken", "beobachten", "schauen", "gucken", "behalten", "anschaue", "ansehe"})
+_PHOTO_BURN_WORDS = frozenset({"verbrennen", "anzünden", "abfackeln", "zerstören", "vernichten", "verbrenne", "anzünde"})
+
+
+def _keyword_match(user_input: str, a_words: frozenset[str], b_words: frozenset[str]) -> str | None:
+    tokens = set(re.sub(r"[^\wäöüÄÖÜß]", " ", user_input.lower()).split())
+    has_a = bool(tokens & a_words)
+    has_b = bool(tokens & b_words)
+    if has_a and not has_b:
+        return "a"
+    if has_b and not has_a:
+        return "b"
+    return None
+
+
 _PHONE_CHOICE_PROMPT = """Du klassifizierst Spielereingaben für ein deutsches Textadventure.
 Die Entscheidung: Soll Jacob die Sprachnachrichten seines Opas anhören oder löschen?
 
@@ -87,6 +106,12 @@ Antworte NUR mit einem dieser drei JSON-Objekte — keine Erklärungen, kein Pro
 
 
 async def classify_phone_choice(user_input: str) -> str:
+    pre = _keyword_match(user_input, _PHONE_LISTEN_WORDS, _PHONE_DELETE_WORDS)
+    if pre == "a":
+        return "phone_listen"
+    if pre == "b":
+        return "phone_delete"
+
     url = f"{BASE_URL}/api/chat"
     messages = [
         {"role": "system", "content": _PHONE_CHOICE_PROMPT},
@@ -119,6 +144,12 @@ Antworte NUR mit einem dieser drei JSON-Objekte — keine Erklärungen, kein Pro
 
 
 async def classify_photo_choice(user_input: str) -> str:
+    pre = _keyword_match(user_input, _PHOTO_VIEW_WORDS, _PHOTO_BURN_WORDS)
+    if pre == "a":
+        return "photo_view"
+    if pre == "b":
+        return "photo_burn"
+
     url = f"{BASE_URL}/api/chat"
     messages = [
         {"role": "system", "content": _PHOTO_CHOICE_PROMPT},

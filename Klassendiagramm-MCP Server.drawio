@@ -1,46 +1,83 @@
 classDiagram
-    class FastMCP {
-        +str name
-        +tool(name: str, title: str, description: str) decorator
-        +run(transport: str) None
-    }
-    
     class MCPServer {
-        +FastMCP mcp
-        +look() str
-        +move(direction: str) str
-        +take(item: str) str
-        +inventory() str
-        -logger Logger
+        <<FastMCP Instance>>
+        +mcp : FastMCP
+        +completed_tasks : set[str]
+        +used_repair_tools : set[str]
+        +triggered_manifestations : set[str]
+        +garage_unlocked : bool
+        +awaiting_phone_choice : bool
+        +awaiting_photo_choice : bool
+        +failed_tasks : set[str]
+        +REPAIR_TOOLS : set[str]
+        +REQUIRED_TASKS : set[str]
+        +MANIFESTATIONS : dict[str, str]
+        +_fog_manifestation(key: str) : str
+        +look() : str
+        +move(direction: str) : str
+        +take(item: str) : str
+        +inventory_tool() : str
+        +use(item: str) : str
+        +phone_listen() : str
+        +phone_delete() : str
+        +photo_view() : str
+        +photo_burn() : str
+        +glossar_tool() : str
     }
-    
-    class WorldData {
-        +Dict[str, Room] WORLD
-        +str current_room
-        +List[str] inventory
+
+    class FastMCP {
+        <<extern (mcp.server.fastmcp)>>
+        +name : str
+        +tool() : decorator
+        +run(transport: str) : None
     }
-    
+
+    class World {
+        <<module world.py>>
+        +WORLD : dict[str, Room]
+        +current_room : str
+        +inventory : list[str]
+        +ITEMS : dict[str, str]
+    }
+
     class Room {
-        +str name
-        +str description
-        +Dict[str, str] exits
-        +List[str] items
+        +name : str
+        +description : str
+        +items : list[str]
+        +exits : dict[str, str]
     }
-    
-    class ToolDecorator {
-        <<decorator>>
-        +name: str
-        +title: str
-        +description: str
+
+    class Glossary {
+        <<module glossary.py>>
+        +discover(entity: str) : None
+        +get_discovered() : list[dict]
     }
-    
-    MCPServer --> FastMCP : verwendet (Komposition)
-    MCPServer --> WorldData : importiert und modifiziert
-    MCPServer --> Room : nutzt für Raumlogik
-    FastMCP --> ToolDecorator : erstellt Decorators
-    
-    WorldData --> Room : enthält mehrere Räume
-    
-    note for MCPServer "Singleton-Server\nWird als stdio-Prozess gestartet"
-    note for FastMCP "Aus mcp.server.fastmcp\nStellt Tool-Decorator bereit"
-    note for WorldData "Globale Daten aus world.py\nWird direkt modifiziert"
+
+    class TaskSet {
+        <<enumeration>>
+        car_fixed
+        friends_reconciled
+        grandpa_forgiven
+    }
+
+    class RepairTools {
+        <<enumeration>>
+        wagenheber
+        reifen_reparaturset
+        radkreuz
+    }
+
+    class ManifestationKey {
+        <<enumeration>>
+        dnd_friends
+        coach_ferguson
+        opa_gerald
+    }
+
+    MCPServer --> FastMCP : ist eine Instanz von
+    MCPServer --> World : importiert & nutzt
+    MCPServer --> Glossary : importiert & nutzt
+    MCPServer --> Room : verwendet (über World)
+    MCPServer --> TaskSet : verwendet (completed_tasks/failed_tasks)
+    MCPServer --> RepairTools : verwendet (REPAIR_TOOLS)
+    MCPServer --> ManifestationKey : verwendet (MANIFESTATIONS)

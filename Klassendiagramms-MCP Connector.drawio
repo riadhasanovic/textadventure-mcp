@@ -1,67 +1,64 @@
 classDiagram
     class MCPConnector {
-        -session ClientSession
-        -str tools_description
-        -_tools_list List
-        +__init__() None
-        +connect() AsyncContextManager~MCPConnector~
-        +call_tool(tool_name: str, arguments: dict) ToolResult
-        +get_tools_description() str
+        -session : ClientSession | None
+        -tools_description : str
+        -_tools_list : list
+        +__init__() : None
+        +connect() : AsyncContextManager
+        +call_tool(tool_name: str, arguments: dict) : ToolResult
+        +get_tools_description() : str
     }
-    
+
     class ToolResult {
-        +bool success
-        +str output
-        +str error
-        +__init__(success: bool, output: str, error: str)
+        <<dataclass>>
+        +success : bool
+        +output : str
+        +error : str | None
     }
-    
-    class StdioServerParameters {
-        +str command
-        +List[str] args
-        +__init__(command: str, args: List[str])
-    }
-    
-    class stdio_client {
-        +__call__(params: StdioServerParameters) tuple
-    }
-    
+
     class ClientSession {
-        +__init__(read: Stream, write: Stream)
-        +initialize() None
-        +list_tools() ListToolsResult
-        +call_tool(name: str, arguments: dict) CallToolResult
+        <<extern (mcp.client.session)>>
+        +initialize() : None
+        +list_tools() : ToolsList
+        +call_tool(tool_name: str, arguments: dict) : ToolCallResult
     }
-    
-    class ListToolsResult {
-        +List[Tool] tools
+
+    class stdio_client {
+        <<extern (mcp.client.stdio)>>
+        +__aenter__() : tuple[read, write]
+        +__aexit__() : None
     }
-    
+
+    class StdioServerParameters {
+        <<extern (mcp.client.stdio)>>
+        +command : str
+        +args : list[str]
+    }
+
     class Tool {
-        +str name
-        +str description
-        +Any inputSchema
+        <<extern (mcp.types)>>
+        +name : str
+        +description : str
     }
-    
-    class CallToolResult {
-        +bool isError
-        +List[Content] content
+
+    class ToolCallResult {
+        <<extern (mcp.types)>>
+        +content : list[TextContent]
+        +isError : bool
     }
-    
-    class Content {
-        +str text
+
+    class TextContent {
+        <<extern (mcp.types)>>
+        +text : str
     }
+
+    MCPConnector --> ToolResult : erzeugt
+    MCPConnector --> ClientSession : verwendet
+    MCPConnector --> stdio_client : verwendet (connect)
+    MCPConnector --> StdioServerParameters : erzeugt
+    MCPConnector --> Tool : speichert (_tools_list)
     
-    MCPConnector --> ToolResult : erzeugt und zurückgibt
-    MCPConnector --> ClientSession : verwendet (Komposition)
-    MCPConnector --> stdio_client : nutzt (Kontextmanager)
-    stdio_client --> StdioServerParameters : benötigt Parameter
+    ClientSession --> ToolCallResult : liefert (call_tool)
+    ClientSession --> Tool : liefert (list_tools)
     
-    ClientSession --> ListToolsResult : list_tools() gibt zurück
-    ClientSession --> CallToolResult : call_tool() gibt zurück
-    ListToolsResult --> Tool : enthält mehrere Tools
-    CallToolResult --> Content : enthält Liste von Content-Objekten
-    
-    note for MCPConnector "Singleton-ähnlich pro Verbindung\nVerwaltet eine aktive Session"
-    note for ToolResult "Einfaches Ergebnis-DTO\n(Data Transfer Object)"
-    note for ClientSession "Aus der MCP-Bibliothek\nRepräsentiert eine aktive Client-Sitzung"
+    ToolCallResult --> TextContent : enthält (content)
