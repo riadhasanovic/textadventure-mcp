@@ -34,7 +34,7 @@ def render_room(text: str):
 
 
 def render_inventory(text: str):
-    if "leer" in text.lower():
+    if text.strip() == "Dein Inventar ist leer.":
         console.print(Panel(Text("Dein Inventar ist leer.", style="dim"), title="[bold]Inventar[/]"))
         return
     try:
@@ -90,7 +90,7 @@ def _extract_manifestation(text: str) -> tuple[str, str | None]:
 
 def render_fog_manifestation(text: str):
     console.print()
-    console.print(text, style="dim italic white")
+    console.print(Markdown(text))
     console.print()
 
 

@@ -31,6 +31,22 @@ ENTRIES: Dict[str, GlossaryEntry] = {
         "Der stille Hausmeister der Highschool. Sein Haus birgt Werkzeuge, "
         "die Jacob braucht, um sich seiner Schuld zu stellen."
     ),
+    "billy": GlossaryEntry(
+        "billy", "Person", "Billy",
+        "Der Spielleiter eurer D&D-Runde. Billy hat die Abenteuer erfunden, "
+        "in die ihr jeden Donnerstag eingetaucht seid. Jacob hörte irgendwann "
+        "auf zu erscheinen."
+    ),
+    "zack": GlossaryEntry(
+        "zack", "Person", "Zack",
+        "Jacobs ältester Freund. Zack und Jacob kannten sich schon vor der "
+        "Highschool. Den Streit zwischen ihnen hat nie jemand wirklich beigelegt."
+    ),
+    "josh": GlossaryEntry(
+        "josh", "Person", "Josh",
+        "Der Jüngste eurer Gruppe. Josh sah zu Jacob auf wie zu einem großen "
+        "Bruder — und verstand nie, warum Jacob sich einfach zurückzog."
+    ),
     "coach_ferguson": GlossaryEntry(
         "coach_ferguson", "Person", "Coach Ferguson",
         "Der Baseballtrainer der Highschool. Jacob hat ihm nie gedankt "
