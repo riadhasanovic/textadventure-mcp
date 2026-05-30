@@ -13,7 +13,7 @@
         <mxCell id="n84z1tWU3YbTp6SrkeX1-5" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;+ category: str&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
           <mxGeometry height="26" width="140" y="52" as="geometry" />
         </mxCell>
-        <mxCell id="n84z1tWU3YbTp6SrkeX1-9" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="name: str" vertex="1">
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-9" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ name: str" vertex="1">
           <mxGeometry height="26" width="140" y="78" as="geometry" />
         </mxCell>
         <mxCell id="n84z1tWU3YbTp6SrkeX1-7" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ description: str" vertex="1">

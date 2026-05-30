@@ -29,7 +29,7 @@ class MCPConnector:
     def __init__(self):
         self.session = None
         self.tools_description: str = ""
-        self._tools_list = []
+        self._tools_list: dict = []
 
     @asynccontextmanager
     async def connect(self):

@@ -7,7 +7,7 @@ import json
 import httpx
 import logging
 
-logger = logging.getLogger(__name__)
+logger: Logger = logging.getLogger(__name__)
 
 BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
