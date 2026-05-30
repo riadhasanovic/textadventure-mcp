@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 console = Console(record=True)
 
 
-def render_room(text: str):
+def render_room(text: str) -> None:
     lines = text.strip().split("\n")
     title = ""
     body_lines = lines
@@ -33,7 +33,7 @@ def render_room(text: str):
     console.print(Panel(body, title=f"[bold]{title}[/]", padding=(0, 1)))
 
 
-def render_inventory(text: str):
+def render_inventory(text: str) -> None:
     if text.strip() == "Dein Inventar ist leer.":
         console.print(Panel(Text("Dein Inventar ist leer.", style="dim"), title="[bold]Inventar[/]"))
         return
@@ -56,7 +56,7 @@ def _is_room_output(text: str) -> bool:
     return stripped.startswith("**") and "\n" in stripped
 
 
-def render_glossary(text: str):
+def render_glossary(text: str) -> None:
     entries = json.loads(text)
     if not entries:
         console.print(Panel(Text("Noch keine Einträge entdeckt.", style="dim"), title="[bold]Glossar[/]"))
@@ -74,7 +74,7 @@ def render_glossary(text: str):
     console.print(Panel(table, title="[bold]Glossar[/]", padding=(0, 0)))
 
 
-def render_response(text: str):
+def render_response(text: str) -> None:
     console.print(Markdown(text))
 
 
@@ -88,13 +88,13 @@ def _extract_manifestation(text: str) -> tuple[str, str | None]:
     return text, None
 
 
-def render_fog_manifestation(text: str):
+def render_fog_manifestation(text: str) -> None:
     console.print()
     console.print(Markdown(text))
     console.print()
 
 
-async def main():
+async def main() -> None:
     console.print(Panel(
         Text("LOVERS LEAP", justify="center", style="bold"),
         padding=(1, 4),
@@ -198,7 +198,7 @@ async def main():
                 render_fog_manifestation(fog)
 
 
-def print_help():
+def print_help() -> None:
     table = Table(show_header=False, padding=(0, 1), highlight=False)
     table.add_column("Befehl", style="default", no_wrap=True)
     table.add_column("Beschreibung", style="default")

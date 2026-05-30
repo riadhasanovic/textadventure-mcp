@@ -8,7 +8,7 @@ class Room(BaseModel):
     exits: Dict[str, str] = {}
     items: List[str] = []
 
-WORLD = {
+WORLD:Dict[str, Room] = {
     "alter_baum": Room(
         name="Der alte Baum",
         description="Du wachst unter einem riesigen, knorrigen alten Baum auf. Der Nebel ist dicht.",

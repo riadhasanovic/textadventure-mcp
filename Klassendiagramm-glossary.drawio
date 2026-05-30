@@ -1,0 +1,37 @@
+<mxfile host="Electron">
+  <diagram name="Seite-1" id="NDLTLJqAFW7Db79xq1ID">
+    <mxGraphModel dx="693" dy="968" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-1" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="GlossaryEntry" vertex="1">
+          <mxGeometry height="138" width="140" x="170" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-2" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ id: str" vertex="1">
+          <mxGeometry height="26" width="140" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-5" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;div&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;+ category: str&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="26" width="140" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-9" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="name: str" vertex="1">
+          <mxGeometry height="26" width="140" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-7" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ description: str" vertex="1">
+          <mxGeometry height="34" width="140" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-9" parent="1" style="html=1;whiteSpace=wrap;" value="+ ENTRIES: Dict[str: GlossaryEntry]" vertex="1">
+          <mxGeometry height="40" width="210" x="340" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-10" parent="1" style="html=1;whiteSpace=wrap;" value="&lt;div style=&quot;background-color: rgb(18, 19, 20); line-height: 19px; white-space: pre;&quot;&gt;&lt;span style=&quot;white-space: normal; background-color: rgb(27, 29, 30);&quot;&gt;+ is_discovered(entry_id: str): bool&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="40" width="210" x="570" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-11" parent="1" style="html=1;whiteSpace=wrap;" value="+ discover(entry_id: str): None" vertex="1">
+          <mxGeometry height="40" width="210" x="340" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-12" parent="1" style="html=1;whiteSpace=wrap;" value="+ get_discovered(): List[dict]" vertex="1">
+          <mxGeometry height="40" width="210" x="570" y="520" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

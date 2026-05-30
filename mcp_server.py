@@ -9,9 +9,9 @@ import world
 import glossary
 
 logging.basicConfig(level=logging.INFO, stream=sys.stderr)
-logger = logging.getLogger(__name__)
+logger:Logger = logging.getLogger(__name__)
 
-mcp = FastMCP("Jacob Miller")
+mcp:FastMCP = FastMCP("Jacob Miller")
 
 # Tracks which of the three moral tasks Jacob has completed.
 completed_tasks: set[str] = set()
@@ -28,8 +28,8 @@ awaiting_photo_choice: bool = False
 # Tracks moral tasks the player deliberately failed.
 failed_tasks: set[str] = set()
 
-REPAIR_TOOLS = {"wagenheber", "reifen_reparaturset", "radkreuz"}
-REQUIRED_TASKS = {"car_fixed", "friends_reconciled", "grandpa_forgiven"}
+REPAIR_TOOLS:set = {"wagenheber", "reifen_reparaturset", "radkreuz"}
+REQUIRED_TASKS:set = {"car_fixed", "friends_reconciled", "grandpa_forgiven"}
 
 MANIFESTATIONS: dict[str, str] = {
     "dnd_friends": (

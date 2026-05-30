@@ -1,83 +1,61 @@
-classDiagram
-    class MCPServer {
-        <<FastMCP Instance>>
-        +mcp : FastMCP
-        +completed_tasks : set[str]
-        +used_repair_tools : set[str]
-        +triggered_manifestations : set[str]
-        +garage_unlocked : bool
-        +awaiting_phone_choice : bool
-        +awaiting_photo_choice : bool
-        +failed_tasks : set[str]
-        +REPAIR_TOOLS : set[str]
-        +REQUIRED_TASKS : set[str]
-        +MANIFESTATIONS : dict[str, str]
-        +_fog_manifestation(key: str) : str
-        +look() : str
-        +move(direction: str) : str
-        +take(item: str) : str
-        +inventory_tool() : str
-        +use(item: str) : str
-        +phone_listen() : str
-        +phone_delete() : str
-        +photo_view() : str
-        +photo_burn() : str
-        +glossar_tool() : str
-    }
-
-    class FastMCP {
-        <<extern (mcp.server.fastmcp)>>
-        +name : str
-        +tool() : decorator
-        +run(transport: str) : None
-    }
-
-    class World {
-        <<module world.py>>
-        +WORLD : dict[str, Room]
-        +current_room : str
-        +inventory : list[str]
-        +ITEMS : dict[str, str]
-    }
-
-    class Room {
-        +name : str
-        +description : str
-        +items : list[str]
-        +exits : dict[str, str]
-    }
-
-    class Glossary {
-        <<module glossary.py>>
-        +discover(entity: str) : None
-        +get_discovered() : list[dict]
-    }
-
-    class TaskSet {
-        <<enumeration>>
-        car_fixed
-        friends_reconciled
-        grandpa_forgiven
-    }
-
-    class RepairTools {
-        <<enumeration>>
-        wagenheber
-        reifen_reparaturset
-        radkreuz
-    }
-
-    class ManifestationKey {
-        <<enumeration>>
-        dnd_friends
-        coach_ferguson
-        opa_gerald
-    }
-
-    MCPServer --> FastMCP : ist eine Instanz von
-    MCPServer --> World : importiert & nutzt
-    MCPServer --> Glossary : importiert & nutzt
-    MCPServer --> Room : verwendet (über World)
-    MCPServer --> TaskSet : verwendet (completed_tasks/failed_tasks)
-    MCPServer --> RepairTools : verwendet (REPAIR_TOOLS)
-    MCPServer --> ManifestationKey : verwendet (MANIFESTATIONS)
+<mxfile host="Electron">
+  <diagram name="Seite-1" id="NDLTLJqAFW7Db79xq1ID">
+    <mxGraphModel dx="693" dy="968" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-1" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="mcp_server.py" vertex="1">
+          <mxGeometry height="450" width="370" x="290" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-2" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ logger: logger" vertex="1">
+          <mxGeometry height="26" width="370" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-3" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ mcp: FastMCP" vertex="1">
+          <mxGeometry height="26" width="370" y="52" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-4" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;&quot;&gt;+&amp;nbsp;&lt;/font&gt;&lt;/font&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot; face=&quot;Helvetica&quot;&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;REPAIR_TOOLS&lt;/span&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;:&lt;/span&gt;&lt;span style=&quot;white-space: pre;&quot;&gt;set&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="78" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-5" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;&quot;&gt;+ &lt;span style=&quot;white-space: pre; background-color: rgb(18, 19, 20);&quot;&gt;REQUIRED_TASKS&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot; style=&quot;&quot;&gt;:&lt;/font&gt; set&lt;/span&gt;&lt;/font&gt;&lt;div&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/font&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="104" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-9" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;&quot;&gt;+ &lt;span style=&quot;white-space: pre; background-color: rgb(18, 19, 20);&quot;&gt;MANIFESTATIONS&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot; style=&quot;&quot;&gt;:&lt;/font&gt; dict[str, str]&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-7" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;&quot;&gt;- fog_manifestation(key:str&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot; style=&quot;&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="34" width="370" y="156" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-8" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;&quot;&gt;+ look(&lt;/font&gt;&lt;span style=&quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; white-space: nowrap;&quot;&gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20parent%3D%221%22%20style%3D%22text%3BstrokeColor%3Dnone%3BfillColor%3Dnone%3Balign%3Dleft%3BverticalAlign%3Dtop%3BspacingLeft%3D4%3BspacingRight%3D4%3Boverflow%3Dhidden%3Brotatable%3D0%3Bpoints%3D%5B%5B0%2C0.5%5D%2C%5B1%2C0.5%5D%5D%3BportConstraint%3Deastwest%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3B%22%20value%3D%22%26lt%3Bfont%20style%3D%26quot%3Bcolor%3A%20light-dark(rgb(0%2C%200%2C%200)%2C%20rgb(255%2C%20255%2C%20255))%3B%26quot%3B%26gt%3B%26lt%3Bfont%20style%3D%26quot%3B%26quot%3B%26gt%3B%2B%26amp%3Bnbsp%3B%26lt%3B%2Ffont%26gt%3B%26lt%3Bfont%20face%3D%26quot%3BHelvetica%26quot%3B%20style%3D%26quot%3Bfont-size%3A%2012px%3B%26quot%3B%26gt%3B%26lt%3Bspan%20style%3D%26quot%3Bbackground-color%3A%20rgb(18%2C%2019%2C%2020)%3B%20white-space%3A%20pre%3B%26quot%3B%26gt%3B%26lt%3Bfont%20style%3D%26quot%3B%26quot%3B%26gt%3Brender_response%26lt%3B%2Ffont%26gt%3B%26lt%3B%2Fspan%26gt%3B%26lt%3Bspan%20style%3D%26quot%3Bbackground-color%3A%20rgb(18%2C%2019%2C%2020)%3B%20white-space%3A%20pre%3B%26quot%3B%26gt%3B()%26lt%3B%2Fspan%26gt%3B%26lt%3B%2Ffont%26gt%3B%26lt%3Bspan%20style%3D%26quot%3Bbackground-color%3A%20transparent%3B%26quot%3B%26gt%3B%26lt%3Bfont%20face%3D%26quot%3BHelvetica%26quot%3B%20size%3D%26quot%3B3%26quot%3B%20style%3D%26quot%3B%26quot%3B%26gt%3B%3A%26lt%3B%2Ffont%26gt%3B%20None%26lt%3B%2Fspan%26gt%3B%26lt%3B%2Ffont%26gt%3B%22%20vertex%3D%221%22%3E%3CmxGeometry%20height%3D%2226%22%20width%3D%22270%22%20x%3D%22290%22%20y%3D%22570%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&lt;/span&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot; style=&quot;&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-6" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&lt;font style=&quot;&quot;&gt;+&amp;nbsp;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;&lt;font style=&quot;&quot;&gt;move&lt;/font&gt;&lt;/span&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(direction:str)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot; style=&quot;&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;&lt;/font&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="216" as="geometry" />
+        </mxCell>
+        <mxCell id="n84z1tWU3YbTp6SrkeX1-10" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ take&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;white-space: pre; background-color: rgb(18, 19, 20);&quot;&gt;item:str&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="242" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-1" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ inventory_tool&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="268" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-2" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ use&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot;white-space: pre; background-color: rgb(18, 19, 20);&quot;&gt;item:str&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="294" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-3" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ phone_listen&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-4" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ phone_delete&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="346" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-5" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ photo_view&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="372" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-6" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ photo_burn&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="398" as="geometry" />
+        </mxCell>
+        <mxCell id="KzNBokz1rsR7E3IFkTcV-7" parent="n84z1tWU3YbTp6SrkeX1-1" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="&lt;font style=&quot;&quot;&gt;&lt;font style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;+ glossar_tool&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); font-size: 12px;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;(&lt;/span&gt;&lt;/font&gt;&lt;/font&gt;&lt;font face=&quot;Helvetica&quot; style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;span style=&quot;background-color: rgb(18, 19, 20); white-space: pre;&quot;&gt;)&lt;/span&gt;&lt;/font&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: transparent;&quot;&gt;&lt;font face=&quot;Helvetica&quot; size=&quot;3&quot;&gt;:&lt;/font&gt; str&lt;/span&gt;" vertex="1">
+          <mxGeometry height="26" width="370" y="424" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

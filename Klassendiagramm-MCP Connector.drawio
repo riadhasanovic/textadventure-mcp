@@ -1,0 +1,22 @@
+<mxfile host="Electron">
+  <diagram name="Seite-1" id="Bjq2hzKqfp8iflSgnvAa">
+    <mxGraphModel dx="693" dy="968" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="p_kZqQzxUE6mMPlf8up3-1" parent="1" style="verticalAlign=top;align=left;overflow=fill;html=1;whiteSpace=wrap;" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;ToolResult&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot; style=&quot;border-style:solid;&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ success: bool&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ output: str&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ error: str&lt;/p&gt;" vertex="1">
+          <mxGeometry height="90" width="160" x="40" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="UkE4ebg2kbUyGGfY20Oa-2" parent="1" style="swimlane;fontStyle=0;childLayout=stackLayout;horizontal=1;startSize=26;fillColor=none;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" value="MCP-Connector" vertex="1">
+          <mxGeometry height="140" width="196" x="240" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="UkE4ebg2kbUyGGfY20Oa-3" parent="UkE4ebg2kbUyGGfY20Oa-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ session&lt;div&gt;+ tools_description: str&lt;/div&gt;&lt;div&gt;- tools_list: dict&lt;/div&gt;" vertex="1">
+          <mxGeometry height="54" width="196" y="26" as="geometry" />
+        </mxCell>
+        <mxCell id="UkE4ebg2kbUyGGfY20Oa-4" parent="UkE4ebg2kbUyGGfY20Oa-2" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" value="+ connect(self): type&lt;div&gt;+ call_tool: ToolResult&lt;/div&gt;&lt;div&gt;+ get_tools_description: str&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="196" y="80" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
