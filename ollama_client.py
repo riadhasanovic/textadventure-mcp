@@ -10,7 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
+MODEL = os.getenv("OLLAMA_MODEL", "gemma3:4b")
 
 
 SYSTEM_PROMPT = """You are a strict command parser for a German text adventure game.
