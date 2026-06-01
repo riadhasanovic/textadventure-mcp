@@ -1,5 +1,5 @@
 """
-Finale Hauptprogramm - Jacob Miller Textadventure (stabil)
+Finales Hauptprogramm - Jacob Miller Textadventure 
 """
 import sys
 import json

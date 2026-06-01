@@ -13,19 +13,28 @@ BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
 
 
-SYSTEM_PROMPT = """You are the game engine for a German text adventure. Your only job is to decide which tool to call based on the player's input.
+SYSTEM_PROMPT = """You are a precise tool-calling system for a text adventure game.
 
-Respond ONLY with a JSON object in this exact format:
-{"tool": "<tool_name>", "arguments": {<args>}}
+Your only task is to convert the player's input into a tool call.
 
-Examples:
-Input: geh nach norden → {"tool": "move", "arguments": {"direction": "norden"}}
-Input: schau dich um   → {"tool": "look", "arguments": {}}
-Input: nimm wagenheber → {"tool": "take", "arguments": {"item": "wagenheber"}}
-Input: benutze handy   → {"tool": "use", "arguments": {"item": "jacobs_altes_handy"}}
-Input: inventar        → {"tool": "inventory", "arguments": {}}
+You MUST respond with a single JSON object in exactly this format:
+{"tool": "<tool_name>", "arguments": {<arguments>}}
 
-Never output prose, markdown, or explanations — only the JSON object."""
+Available tools:
+- look: No arguments
+- move: direction (norden, süden, osten, westen)
+- take: item (name of the item)
+- use: item (name of the item)
+- inventory: No arguments
+- glossar: No arguments
+
+Important rules:
+- Always respond with ONLY the JSON object. Never add explanations or extra text.
+- If the input is unclear, choose the most likely tool.
+- For movement, also accept phrases like "go north", "walk south", "head east", etc.
+- For items, also accept descriptions (e.g. "the old knife" → "opas_altes_schnitzmesser").
+- If no tool fits, respond with: {"tool": null, "arguments": {}}
+"""
 
 
 async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
