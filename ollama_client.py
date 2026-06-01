@@ -7,34 +7,53 @@ import json
 import httpx
 import logging
 
-logger: Logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
 MODEL = os.getenv("OLLAMA_MODEL", "llama3.1")
 
 
-SYSTEM_PROMPT = """You are a precise tool-calling system for a text adventure game.
+SYSTEM_PROMPT = """You are a strict command parser for a German text adventure game.
+Your ONLY job: translate the player's input into a single JSON tool call.
 
-Your only task is to convert the player's input into a tool call.
-
-You MUST respond with a single JSON object in exactly this format:
-{"tool": "<tool_name>", "arguments": {<arguments>}}
+Output rules — these are absolute:
+- Respond with ONE JSON object and NOTHING else.
+- Never write prose, never explain, never apologize, never narrate.
+- Never invent tools that are not in the list below.
+- Never guess. If the input does not clearly map to a tool, return:
+  {"tool": "unknown", "arguments": {}}
 
 Available tools:
-- look: No arguments
-- move: direction (norden, süden, osten, westen)
-- take: item (name of the item)
-- use: item (name of the item)
-- inventory: No arguments
-- glossar: No arguments
+- look         — no arguments. Describes the current room.
+- move         — arguments: {"direction": "norden"|"süden"|"osten"|"westen"}
+- take         — arguments: {"item": "<item_name>"}
+- use          — arguments: {"item": "<item_name>"}
+- inventory    — no arguments. Shows the inventory.
+- glossar      — no arguments. Shows discovered people and places.
 
-Important rules:
-- Always respond with ONLY the JSON object. Never add explanations or extra text.
-- If the input is unclear, choose the most likely tool.
-- For movement, also accept phrases like "go north", "walk south", "head east", etc.
-- For items, also accept descriptions (e.g. "the old knife" → "opas_altes_schnitzmesser").
-- If no tool fits, respond with: {"tool": null, "arguments": {}}
-"""
+Direction normalization:
+- "nördlich", "nordwärts", "go north", "richtung norden" → "norden"
+- "südlich", "südwärts", "go south", "richtung süden"   → "süden"
+- "östlich", "ostwärts",  "go east",  "richtung osten"  → "osten"
+- "westlich","westwärts", "go west",  "richtung westen" → "westen"
+
+Item commands:
+- "nimm X", "hebe X auf", "heb X", "pick up X" → take with item=X
+- "benutze X", "verwende X", "nutze X", "use X" → use with item=X
+- Strip German articles ("den", "die", "das", "ein", "eine", "einen") from item names.
+
+Examples:
+Input: "schau dich um"            → {"tool": "look", "arguments": {}}
+Input: "geh nach norden"          → {"tool": "move", "arguments": {"direction": "norden"}}
+Input: "ich will südwärts"        → {"tool": "move", "arguments": {"direction": "süden"}}
+Input: "hebe den wagenheber auf"  → {"tool": "take", "arguments": {"item": "wagenheber"}}
+Input: "benutze das handy"        → {"tool": "use", "arguments": {"item": "jacobs_altes_handy"}}
+Input: "inventar"                 → {"tool": "inventory", "arguments": {}}
+Input: "zeig glossar"             → {"tool": "glossar", "arguments": {}}
+Input: "erzähl mir einen witz"    → {"tool": "unknown", "arguments": {}}
+Input: "wer bist du?"             → {"tool": "unknown", "arguments": {}}
+
+Remember: ONE JSON object, no other text, no guessing."""
 
 
 async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
@@ -193,6 +212,8 @@ def _parse_tool_call(answer: str) -> dict | None:
         if isinstance(parsed, list) and len(parsed) > 0:
             parsed = parsed[0]
         if "tool" in parsed and "arguments" in parsed:
+            if parsed["tool"] is None or parsed["tool"] == "unknown":
+                return None
             return parsed
     except Exception:
         pass
