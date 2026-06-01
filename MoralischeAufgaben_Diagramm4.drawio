@@ -1,0 +1,226 @@
+<mxfile host="Electron">
+  <diagram name="Moralische Aufgaben" id="diagramm4-moral">
+    <mxGraphModel dx="1434" dy="677" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="h1" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=12;" value="Task 1 — Coach Fergusons Auto" vertex="1">
+          <mxGeometry height="30" width="220" x="40" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="h2" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=12;" value="Task 2 — D&amp;D-Freunde versöhnen" vertex="1">
+          <mxGeometry height="30" width="220" x="390" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="h3" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=12;" value="Task 3 — Opa Gerald ehren" vertex="1">
+          <mxGeometry height="30" width="220" x="740" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_trigger" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Parkplatz&lt;div&gt;Nutze Reparatur Tools&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="175" x="55" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_raute" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="Alle 3 Tools&lt;div&gt;verwendet?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="130" x="75" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_tracking" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontStyle=2;" value="Alle sammeln oder verwenden" vertex="1">
+          <mxGeometry height="50" width="150" x="240" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_gut" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Auto repariert" vertex="1">
+          <mxGeometry height="50" width="130" x="75" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_bad_trigger" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Parkplatz + Schnitzmesser&lt;div&gt;benutze opas_schnitzmesser&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="175" x="55" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="t1_schlecht" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Reifen aufschlitzen" vertex="1">
+          <mxGeometry height="60" width="130" x="75" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_trigger" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Stadtbibliothek&lt;div&gt;benutze dnd_brettspiel&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="175" x="405" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_raute" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="Foto noch vorhanden" vertex="1">
+          <mxGeometry height="80" width="130" x="425" y="155" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_gut" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Freunde vereint" vertex="1">
+          <mxGeometry height="50" width="130" x="425" y="275" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_bad_trigger" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Foto + Feuerzeug im Inventar&lt;div&gt;benutze foto_dnd_freunde&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="175" x="405" y="364" as="geometry" />
+        </mxCell>
+        <mxCell id="t2_schlecht" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Foto verbrannt" vertex="1">
+          <mxGeometry height="60" width="130" x="427.5" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_trigger" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Friedhof&lt;div&gt;benutze jacobs_altes_handy&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="175" x="755" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_awaiting" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" value="Nachricht von Opa" vertex="1">
+          <mxGeometry height="50" width="175" x="755" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_raute" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="Anhören oder&lt;div&gt;Löschen?&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="130" x="775" y="245" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_gut" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Opa vergeben und geehrt" vertex="1">
+          <mxGeometry height="50" width="130" x="775" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="t3_schlecht" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Opa nicht vergeben" vertex="1">
+          <mxGeometry height="50" width="130" x="935" y="370" as="geometry" />
+        </mxCell>
+        <mxCell id="label_completed" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=11;" value="Gutes Ende" vertex="1">
+          <mxGeometry height="25" width="150" x="295" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="completed" parent="1" style="rounded=8;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" value="Auto repariert&lt;div&gt;Nachricht gehört&amp;nbsp;&lt;/div&gt;&lt;div&gt;Freunde vereint&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="280" x="230" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-4" edge="1" parent="1" source="label_failed" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="failed" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="label_failed" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=11;" value="schlechtes Ende" vertex="1">
+          <mxGeometry height="25" width="150" x="660" y="580" as="geometry" />
+        </mxCell>
+        <mxCell id="failed" parent="1" style="rounded=8;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" value="Freunde nicht vereint&lt;div&gt;Nachricht gelöscht&lt;/div&gt;&lt;div&gt;Reifen aufgeschlitzt&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="250" x="600" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_label" parent="1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontStyle=1;fontSize=11;" value="" vertex="1">
+          <mxGeometry height="25" width="200" x="430" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_check" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" value="Eintriit Lovers Leap" vertex="1">
+          <mxGeometry height="50" width="220" x="415" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="ll_raute" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="Failed Task und leere Task sind 0&lt;div&gt;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Done Tasks == 3&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" vertex="1">
+          <mxGeometry height="140" width="190" x="425" y="770" as="geometry" />
+        </mxCell>
+        <mxCell id="good_end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" value="Game_Over&lt;div&gt;Good Ending&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="160" x="260" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="bad_end" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;" value="Game_Over&lt;div&gt;Bad Ending&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="180" x="640" y="930" as="geometry" />
+        </mxCell>
+        <mxCell id="ungeloest" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="Noch ungelöst&lt;div&gt;Liste fehlender Tasks&lt;/div&gt;" vertex="1">
+          <mxGeometry height="50" width="140" x="455" y="940" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t1_1" edge="1" parent="1" source="t1_trigger" style="endArrow=classic;html=1;rounded=0;" target="t1_raute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t1_nein" edge="1" parent="1" source="t1_raute" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="t1_tracking" value="nein">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t1_ja" edge="1" parent="1" source="t1_raute" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="t1_gut" value="ja">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t1_bad1" edge="1" parent="1" source="t1_bad_trigger" style="endArrow=classic;html=1;rounded=0;" target="t1_schlecht">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t2_1" edge="1" parent="1" source="t2_trigger" style="endArrow=classic;html=1;rounded=0;" target="t2_raute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t2_nein" edge="1" parent="1" source="t2_raute" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="t2_gut" value="Ja">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t2_bad1" edge="1" parent="1" source="t2_bad_trigger" style="endArrow=classic;html=1;rounded=0;" target="t2_schlecht">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t3_1" edge="1" parent="1" source="t3_trigger" style="endArrow=classic;html=1;rounded=0;" target="t3_awaiting">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t3_2" edge="1" parent="1" source="t3_awaiting" style="endArrow=classic;html=1;rounded=0;" target="t3_raute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t3_gut" edge="1" parent="1" source="t3_raute" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="t3_gut" value="anhören">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_t3_schlecht" edge="1" parent="1" source="t3_raute" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="t3_schlecht" value="löschen">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_c1" edge="1" parent="1" source="t1_gut" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;dashed=1;exitX=1;exitY=0.5;entryX=0.25;entryY=0;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="160" y="325" as="sourcePoint" />
+            <mxPoint x="320" y="610.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_c2" edge="1" parent="1" source="t2_gut" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;dashed=1;exitX=0;exitY=0.5;entryX=0.5;entryY=0;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="454.92" y="325" as="sourcePoint" />
+            <mxPoint x="334.92" y="610.0000000000002" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_c3" edge="1" parent="1" source="t3_gut" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#82b366;dashed=1;exitX=0.5;exitY=1;entryX=0.75;entryY=0;" target="completed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_f2" edge="1" parent="1" source="t2_schlecht" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;dashed=1;exitX=0.5;exitY=1;entryX=0.3;entryY=0;" target="failed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_f3" edge="1" parent="1" source="t3_schlecht" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;dashed=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1000" y="535" />
+              <mxPoint x="775" y="535" />
+            </Array>
+            <mxPoint x="1000" y="440" as="sourcePoint" />
+            <mxPoint x="775" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e_ll1" edge="1" parent="1" source="completed" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.3;entryY=0;" target="ll_check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ll2" edge="1" parent="1" source="failed" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.7;entryY=0;" target="ll_check">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_ll3" edge="1" parent="1" source="ll_check" style="endArrow=classic;html=1;rounded=0;" target="ll_raute">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_good" edge="1" parent="1" source="ll_raute" style="endArrow=classic;html=1;rounded=0;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="good_end" value="ja">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_bad" edge="1" parent="1" source="ll_raute" style="endArrow=classic;html=1;rounded=0;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="bad_end" value="nein">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e_offen" edge="1" parent="1" source="ll_raute" style="endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="ungeloest" value="teils">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-2" edge="1" parent="1" source="t2_raute" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;dashed=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.128;entryY=-0.04;entryDx=0;entryDy=0;entryPerimeter=0;" target="failed">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="580" y="200" as="sourcePoint" />
+            <mxPoint x="630" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-3" connectable="0" parent="R3Wimz-RS849p6n4HQqG-2" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Nein" vertex="1">
+          <mxGeometry relative="1" x="-0.945" y="-3" as="geometry">
+            <mxPoint y="1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-5" edge="1" parent="1" source="t1_schlecht" style="endArrow=classic;html=1;rounded=0;edgeStyle=orthogonalEdgeStyle;strokeColor=#b85450;dashed=1;entryX=0.384;entryY=0.05;entryDx=0;entryDy=0;entryPerimeter=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="failed">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="515" />
+              <mxPoint x="120" y="540" />
+              <mxPoint x="698" y="540" />
+              <mxPoint x="698" y="564" />
+              <mxPoint x="696" y="564" />
+            </Array>
+            <mxPoint x="120" y="520" as="sourcePoint" />
+            <mxPoint x="621" y="563.5" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-8" edge="1" parent="1" source="R3Wimz-RS849p6n4HQqG-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" target="R3Wimz-RS849p6n4HQqG-7" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Opas_altes_Schnitzmesser im Inventar" vertex="1">
+          <mxGeometry height="50" width="175" x="950" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-9" edge="1" parent="1" source="R3Wimz-RS849p6n4HQqG-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" target="t3_gut" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="930" y="285" />
+              <mxPoint x="930" y="350" />
+              <mxPoint x="873" y="350" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-10" connectable="0" parent="R3Wimz-RS849p6n4HQqG-9" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Ja" vertex="1">
+          <mxGeometry relative="1" x="-0.7892" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="R3Wimz-RS849p6n4HQqG-7" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" value="hinlegen?" vertex="1">
+          <mxGeometry height="80" width="130" x="972.5" y="245" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
