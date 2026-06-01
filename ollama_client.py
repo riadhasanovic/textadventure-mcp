@@ -82,28 +82,8 @@ async def ask_ollama(user_message: str, tools_description: str) -> dict | None:
 
 
 async def format_result(tool_name: str, result: str) -> str:
-    """Sehr strikte Formatierung – besonders für inventory und look"""
-    if tool_name == "inventory":
-        return result  # Direkte Ausgabe ohne LLM
-
-    if "GAME_OVER_GOOD" in result or "GAME_OVER_BAD" in result:
-        return result
-
-    # Für look und andere Tools extrem kurz halten
-    url = f"{BASE_URL}/api/chat"
-    messages = [
-        {"role": "system", "content": "Antworte extrem kurz und sachlich. Maximal 2 Sätze. Keine Poesie. Gegenwartsform."},
-        {"role": "user", "content": result}
-    ]
-
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.post(url, json={"model": MODEL, "messages": messages, "temperature": 0.2, "stream": False}, timeout=20.0)
-            response.raise_for_status()
-            data = response.json()
-            return data["message"]["content"]
-        except Exception:
-            return result
+    """Direkter Pass-Through ohne LLM-Umformulierung."""
+    return result
 
 
 _PHONE_LISTEN_WORDS = frozenset({"anhören", "hören", "abspielen", "zuhören", "anhöre", "höre", "abspiele"})
