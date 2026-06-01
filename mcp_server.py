@@ -9,7 +9,7 @@ import world
 import glossary
 
 logging.basicConfig(level=logging.INFO, stream=sys.stderr)
-logger:Logger = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 mcp:FastMCP = FastMCP("Jacob Miller")
 
