@@ -249,7 +249,7 @@ def use(item: str) -> str:
         world.inventory.remove(item)
         return (
             "Du legst das Schnitzmesser sanft auf den Grabstein.\n"
-            "Ein kleines Zeichen, dass du nicht vergessen hast."
+            "Ein kleines Zeichen, dass du ihn nicht vergessen hast."
         )
 
     # --- Garage aufschließen ---
